@@ -84,6 +84,15 @@ def to_dict(report: ReplayReport) -> dict[str, Any]:
             },
             "distinct_requests": report.distinct_requests,
         },
+        "mapping_provenance": {
+            "mappings_used": len(counts.mappings_used),
+            "oracle_backed": len(counts.mappings_oracle_backed),
+            "asserted": len(counts.mappings_used) - len(counts.mappings_oracle_backed),
+            "asserted_mappings": sorted(
+                f"{service}:{event}"
+                for service, event in counts.mappings_used - counts.mappings_oracle_backed
+            ),
+        },
         "summary": {
             Verdict.DENY.value: len(report.would_deny),
             Verdict.INDETERMINATE.value: len(report.indeterminate),

@@ -60,6 +60,17 @@ def _render_header(report: ReplayReport, console: Console) -> None:
         analyzed += "  [yellow](source held less history than requested)[/yellow]"
     console.print(analyzed)
 
+    # Printed on every run for the same reason the analyzed window is: a caveat
+    # someone might not read becomes a number they cannot avoid.
+    used = len(counts.mappings_used)
+    backed = len(counts.mappings_oracle_backed)
+    if used:
+        asserted = used - backed
+        line = f"[bold]Mapping provenance:[/bold] {backed} of {used} mappings used are oracle-backed"
+        if asserted:
+            line += f"  [yellow]({asserted} asserted, never tested against AWS)[/yellow]"
+        console.print(line)
+
     console.print(f"[bold]Events scanned:[/bold]    {_fmt(counts.scanned)}")
     console.print(f"  for this principal: {_fmt(counts.for_principal)}")
     console.print(f"    succeeded:        {_fmt(counts.succeeded)}")

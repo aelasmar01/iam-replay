@@ -205,3 +205,41 @@ def test_a_boundary_intersects_the_candidate(runner, tmp_path):
     ]})
     result = run(runner, "--boundary", str(boundary), "--fail-on-deny")
     assert result.exit_code == EXIT_GATE_TRIPPED
+
+
+# --- mapping provenance ------------------------------------------------------
+
+
+def test_mapping_provenance_is_printed_on_every_run(runner):
+    """Same move as the analyzed window: a caveat someone might skip becomes a
+    number in the header they cannot avoid."""
+    result = run(runner)
+    assert "Mapping provenance:" in result.output
+    assert "oracle-backed" in result.output
+
+
+def test_provenance_names_the_untested_mappings_in_json(runner):
+    document = json.loads(run(runner, "--format", "json").output)
+    provenance = document["mapping_provenance"]
+
+    assert provenance["mappings_used"] > 0
+    assert provenance["oracle_backed"] + provenance["asserted"] == provenance["mappings_used"]
+    assert len(provenance["asserted_mappings"]) == provenance["asserted"]
+
+
+def test_a_run_leaning_on_untested_mappings_says_so(runner, tmp_path, monkeypatch):
+    """The case that matters: a production role touching mappings the oracle has
+    never covered must surface both the count and a caveat."""
+    from iam_replay.normalize import validation
+
+    monkeypatch.setattr(validation, "MANIFEST_PATH", tmp_path / "absent.json")
+    validation._manifest.cache_clear()
+    validation.validated_pairs.cache_clear()
+
+    # rich hard-wraps the header, so compare against whitespace-collapsed output
+    flat = " ".join(run(runner).output.split())
+    assert "asserted, never tested against AWS" in flat
+    assert "never been checked against real AWS traffic" in flat
+
+    validation._manifest.cache_clear()
+    validation.validated_pairs.cache_clear()

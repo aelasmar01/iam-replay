@@ -1,0 +1,37 @@
+{
+  "schema_version": "1.0.0",
+  "note": "Event mappings that survived both halves of the ground-truth oracle against real captured CloudTrail traffic. Every other mapping in this package is asserted, not tested against AWS. Regenerate with scripts/refresh_validation_manifest.py.",
+  "declared_totals": {
+    "ec2": 35,
+    "iam": 30,
+    "kms": 24,
+    "lambda": 27,
+    "s3": 33,
+    "sts": 9
+  },
+  "validated": {
+    "ec2": [
+      "DescribeInstances",
+      "DescribeSecurityGroups",
+      "DescribeVpcs"
+    ],
+    "iam": [
+      "GetRole",
+      "ListAttachedRolePolicies",
+      "ListRoles"
+    ],
+    "kms": [
+      "DescribeKey",
+      "ListAliases"
+    ],
+    "lambda": [
+      "GetFunction20150331v2",
+      "ListFunctions20150331"
+    ],
+    "s3": [
+      "GetBucketLocation",
+      "GetBucketVersioning",
+      "ListBuckets"
+    ]
+  }
+}

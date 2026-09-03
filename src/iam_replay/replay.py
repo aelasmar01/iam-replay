@@ -14,9 +14,10 @@ from typing import Any, Iterable, Mapping
 from .dedupe import RequestGroup, deduplicate, split_by_outcome
 from .evaluate.engine import Decision, evaluate_mapped_request
 from .models import MappedEvent, Outcome, Reason, Verdict
-from .normalize.mapper import Mapper
+from .normalize.mapper import Mapper, service_from_event_source
 from .normalize.outcome import INCOMPLETE_DENIAL_LOGGING_CAVEAT
 from .normalize.principal import matches
+from .normalize.validation import is_validated
 from .window import Window
 
 DATA_EVENT_CAVEAT = (
@@ -48,6 +49,11 @@ class EventCounts:
     #: this principal's.
     unattributable: int = 0
     unsupported_service: int = 0
+    #: Distinct (service, eventName) mappings this run actually used, split by
+    #: whether each has been validated against real AWS traffic. Surfaced in the
+    #: report so a user can see whether *their* replay touched validated ground.
+    mappings_used: set = field(default_factory=set)
+    mappings_oracle_backed: set = field(default_factory=set)
     unmapped_event: int = 0
     no_authorization_required: int = 0
     unknown_principal: int = 0
@@ -131,6 +137,14 @@ def replay(
             counts.failed_post_authz += 1
 
         _tally_reason(counts, mapped.reason)
+
+        if mapped.requests:
+            service = service_from_event_source(mapped.meta.event_source)
+            pair = (service, mapped.meta.event_name)
+            counts.mappings_used.add(pair)
+            if is_validated(service, mapped.meta.event_name):
+                counts.mappings_oracle_backed.add(pair)
+
         mapped_events.append(mapped)
 
     regression_set, already_denied = split_by_outcome(mapped_events)
@@ -203,6 +217,15 @@ def _caveats(report: ReplayReport, candidate_policy: Mapping[str, Any]) -> list[
             f"records ({', '.join(never_available)}). Every call reaching those "
             "statements is INDETERMINATE and can only be resolved by inspecting "
             "the resources themselves."
+        )
+
+    asserted = len(report.counts.mappings_used) - len(report.counts.mappings_oracle_backed)
+    if asserted:
+        caveats.append(
+            f"{asserted} of the {len(report.counts.mappings_used)} event mappings this "
+            "run used have never been checked against real AWS traffic. They are "
+            "believed correct and covered by unit fixtures, but a wrong action or "
+            "resource in one of them would produce a wrong verdict here."
         )
 
     if report.counts.unsupported_service or report.counts.unmapped_event:

@@ -97,6 +97,37 @@ all evaluate to *true*. Here they are unevaluable, because "absent from the log"
 "absent from the request" are different claims and only the second one would justify those
 answers.
 
+That strictness costs less than it sounds like, because it only bites when the key is
+genuinely missing. What actually floods the output with unknowns is something else — see
+[If your policy is tag-scoped](#if-your-policy-is-tag-scoped).
+
+### If your policy is tag-scoped
+
+**A policy conditioned on `aws:ResourceTag` returns 100% `INDETERMINATE`. Every call, no
+exceptions.** Measured on the fixture workload:
+
+| Policy shape | ALLOW | DENY | INDETERMINATE |
+|---|---:|---:|---:|
+| No conditions | 52 | 0 | 0 |
+| **Tag-scoped (`aws:ResourceTag`)** | **0** | **0** | **52** |
+| Tag-scoped with `IfExists` | 0 | 0 | 52 |
+| `Deny` unless MFA (`BoolIfExists`) | 0 | 52 | 0 |
+| `Deny` unless TLS (`Bool`) | 52 | 0 | 0 |
+| Region-scoped (`aws:RequestedRegion`) | 52 | 0 | 0 |
+
+ABAC policies are idiomatic and common, so this is worth stating plainly: **on a tag-scoped
+policy this tool can tell you nothing at all.** CloudTrail records no tag on any event, so
+every call reaching such a statement is unknowable. Reaching for `IfExists` is the natural
+response and does not help — the key is missing from the log, not from the request.
+
+Note what the table also shows. The `IfExists` and `Bool` guards in rows four and five
+resolve *confidently*, because CloudTrail does record `mfaAuthenticated` and `tlsDetails`.
+The strict semantics are not what causes the wall; tag unavailability is the whole of the
+effect. `tests/test_policy_shapes.py` pins these numbers.
+
+If your policy is tag-scoped, this tool is the wrong instrument, and it will say so rather
+than pretend otherwise.
+
 ## Install
 
 ```bash
@@ -145,7 +176,8 @@ cannot tell them.
    `INDETERMINATE` with reason `unsupported_service` — a correct answer, not a failure.
 4. **Tag-based conditions can never be evaluated.** `aws:ResourceTag/*`,
    `aws:PrincipalTag/*`, `aws:RequestTag/*` and `aws:TagKeys` are absent from every
-   CloudTrail event. Policies depending on them yield `INDETERMINATE`, always.
+   CloudTrail event. A tag-scoped policy comes back **100% `INDETERMINATE`** — measured, not
+   estimated. See [If your policy is tag-scoped](#if-your-policy-is-tag-scoped).
 5. **`iam:PassRole` is inferred, never observed.** It is not logged as its own event. Where
    a mapping asserts it (`lambda:CreateFunction`, `ec2:RunInstances` with an instance
    profile), the entry is marked `INFERRED`. No general PassRole detection is attempted.
@@ -206,9 +238,29 @@ shape is also a read: no write path, and no multi-permission expansion such as
 `pytest tests/test_ground_truth.py -s` prints this table from the code, so it cannot drift
 from what is actually covered.
 
-**It proves the absence of false denies, not false allows.** A mapping that is too broad
-still resolves to `ALLOW` and passes silently, as does a missing context key the in-force
-policy does not reference.
+**And every run says which side of that line it landed on.** The header carries a mapping
+provenance line next to the analyzed window:
+
+```
+Window analyzed:    1 days (2026-09-02 → 2026-09-03)
+Mapping provenance: 10 of 42 mappings used are oracle-backed  (32 asserted, never tested against AWS)
+```
+
+The `--format json` output names the asserted mappings individually. A caveat someone might
+not read becomes a number they cannot avoid — the same reason the analyzed window is printed
+unconditionally.
+
+**A negative control covers the false-*allow* direction.** The positive oracle alone cannot:
+a mapping that lands on the wrong action still gets allowed whenever the baseline happens to
+grant that action too. So `tests/test_negative_control.py` replays the same traffic against
+a policy that allows everything *except* one permission — using the baseline's own literal
+strings, not the mapper's output — and requires every hand-written permission to deny at
+least one real request. If `GetRole` were mapped to `iam:ListRoles`, the positive oracle
+returns ALLOW and says nothing; the `iam:GetRole` control pins nothing and fails. Two
+deliberately sabotaged mappings, a wrong action and a widened resource, are in the suite to
+prove the instrument itself works. Same captured traffic, no extra AWS spend.
+
+What still escapes both: a missing context key the in-force policy does not reference.
 
 **It is only as strong as the baseline is tight.**
 `test_the_baseline_is_tight_enough_to_have_teeth` rejects any `service:*` on `*` statement in
