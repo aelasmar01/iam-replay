@@ -24,3 +24,6 @@ trail-data/
 
 # OS
 .DS_Store
+
+# Rendered fixture policies carry a real account ID and bucket names
+terraform/rendered/
