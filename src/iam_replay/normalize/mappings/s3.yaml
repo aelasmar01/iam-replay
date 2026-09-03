@@ -1,0 +1,150 @@
+# s3 event -> IAM action mappings.
+#
+# eventName is not the IAM action: ListObjectsV2 and HeadBucket both authorize
+# s3:ListBucket. Bucket ARNs have no account or region segment, which is why
+# every template here is arn:{partition}:s3:::{bucket}.
+#
+# Object-level events (GetObject, PutObject) are CloudTrail *data events* and
+# are off by default in most trails. They are mapped so that a trail which does
+# record them is handled correctly -- not because their absence can be detected.
+service: s3
+
+events:
+  # --- bucket listing and location ---
+  ListBuckets:
+    action: s3:ListAllMyBuckets
+    # ListAllMyBuckets is account-wide; it has no bucket-scoped resource. This
+    # is the documented resource for the action, not a widening guess.
+    resource: "*"
+
+  ListObjects:
+    action: s3:ListBucket
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  ListObjectsV2:
+    action: s3:ListBucket
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  ListObjectVersions:
+    action: s3:ListBucketVersions
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  ListMultipartUploads:
+    action: s3:ListBucketMultipartUploads
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  HeadBucket:
+    action: s3:ListBucket
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketLocation:
+    action: s3:GetBucketLocation
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  # --- bucket lifecycle ---
+  CreateBucket:
+    action: s3:CreateBucket
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  DeleteBucket:
+    action: s3:DeleteBucket
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  # --- bucket configuration reads ---
+  GetBucketPolicy:
+    action: s3:GetBucketPolicy
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketPolicyStatus:
+    action: s3:GetBucketPolicyStatus
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketAcl:
+    action: s3:GetBucketAcl
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketVersioning:
+    action: s3:GetBucketVersioning
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketTagging:
+    action: s3:GetBucketTagging
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketEncryption:
+    action: s3:GetEncryptionConfiguration
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketPublicAccessBlock:
+    action: s3:GetBucketPublicAccessBlock
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketLogging:
+    action: s3:GetBucketLogging
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketLifecycle:
+    action: s3:GetLifecycleConfiguration
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  GetBucketNotification:
+    action: s3:GetBucketNotification
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  # --- bucket configuration writes ---
+  PutBucketPolicy:
+    action: s3:PutBucketPolicy
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  DeleteBucketPolicy:
+    action: s3:DeleteBucketPolicy
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketAcl:
+    action: s3:PutBucketAcl
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketVersioning:
+    action: s3:PutBucketVersioning
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketTagging:
+    action: s3:PutBucketTagging
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketEncryption:
+    action: s3:PutEncryptionConfiguration
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketPublicAccessBlock:
+    action: s3:PutBucketPublicAccessBlock
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketLogging:
+    action: s3:PutBucketLogging
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketLifecycle:
+    action: s3:PutLifecycleConfiguration
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  PutBucketNotification:
+    action: s3:PutBucketNotification
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  # --- object level (data events; usually absent from a trail) ---
+  GetObject:
+    action: s3:GetObject
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}/{requestParameters.key}"
+
+  PutObject:
+    action: s3:PutObject
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}/{requestParameters.key}"
+
+  DeleteObject:
+    action: s3:DeleteObject
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}/{requestParameters.key}"
+
+  HeadObject:
+    action: s3:GetObject
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}/{requestParameters.key}"

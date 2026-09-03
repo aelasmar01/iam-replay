@@ -1,0 +1,183 @@
+{
+  "Records": [
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0001-getrole-with-resources-array",
+      "eventTime": "2026-08-20T14:10:00Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "GetRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"roleName": "AppRole"},
+      "resources": [
+        {
+          "accountId": "123456789012",
+          "type": "AWS::IAM::Role",
+          "ARN": "arn:aws:iam::123456789012:role/service-role/AppRole"
+        }
+      ],
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0002-getrole-template-fallback",
+      "eventTime": "2026-08-20T14:10:01Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "GetRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"roleName": "FlatRole"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0003-listroles-star-resource",
+      "eventTime": "2026-08-20T14:10:02Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "ListRoles",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"maxItems": 100},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0004-getpolicy-full-arn-in-request",
+      "eventTime": "2026-08-20T14:10:03Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "GetPolicy",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"policyArn": "arn:aws:iam::123456789012:policy/team/ReadOnlyish"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0005-attachrolepolicy-denied",
+      "eventTime": "2026-08-20T14:11:00Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "AttachRolePolicy",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "errorCode": "AccessDenied",
+      "errorMessage": "User: arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591 is not authorized to perform: iam:AttachRolePolicy",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {
+        "roleName": "AppRole",
+        "policyArn": "arn:aws:iam::aws:policy/AdministratorAccess"
+      },
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": false
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0006-getrole-no-rolename-no-resources",
+      "eventTime": "2026-08-20T14:12:00Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "GetRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "errorCode": "ValidationError",
+      "errorMessage": "1 validation error detected",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": null,
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "iam-0007-getrole-ambiguous-resources-array",
+      "eventTime": "2026-08-20T14:13:00Z",
+      "eventSource": "iam.amazonaws.com",
+      "eventName": "PutRolePolicy",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"roleName": "AppRole", "policyName": "inline"},
+      "resources": [
+        {"accountId": "123456789012", "type": "AWS::IAM::Role", "ARN": "arn:aws:iam::123456789012:role/service-role/AppRole"},
+        {"accountId": "123456789012", "type": "AWS::IAM::Role", "ARN": "arn:aws:iam::123456789012:role/OtherRole"}
+      ],
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": false
+    }
+  ]
+}

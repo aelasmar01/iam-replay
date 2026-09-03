@@ -1,0 +1,194 @@
+{
+  "Records": [
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0001-listobjectsv2-success",
+      "eventTime": "2026-08-20T14:03:11Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListObjectsV2",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37 md/Botocore#1.34.0",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "principalId": "AROAEXAMPLEID:deploy-1755698591",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {
+            "type": "Role",
+            "principalId": "AROAEXAMPLEID",
+            "arn": "arn:aws:iam::123456789012:role/service-role/DeployRole",
+            "accountId": "123456789012",
+            "userName": "DeployRole"
+          },
+          "attributes": {
+            "creationDate": "2026-08-20T13:59:51Z",
+            "mfaAuthenticated": "false"
+          }
+        }
+      },
+      "requestParameters": {
+        "bucketName": "acme-artifacts-prod",
+        "prefix": "builds/",
+        "list-type": "2"
+      },
+      "responseElements": null,
+      "tlsDetails": {
+        "tlsVersion": "TLSv1.3",
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "acme-artifacts-prod.s3.us-east-1.amazonaws.com"
+      },
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0002-getbucketlocation-success",
+      "eventTime": "2026-08-20T14:03:12Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "GetBucketLocation",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37 md/Botocore#1.34.0",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {
+            "type": "Role",
+            "arn": "arn:aws:iam::123456789012:role/service-role/DeployRole",
+            "accountId": "123456789012"
+          },
+          "attributes": {"mfaAuthenticated": "false"}
+        }
+      },
+      "requestParameters": {"bucketName": "acme-artifacts-prod"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0003-listbuckets-success",
+      "eventTime": "2026-08-20T14:03:13Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListBuckets",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": null,
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0004-listobjectsv2-no-bucket-field",
+      "eventTime": "2026-08-20T14:03:14Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListObjectsV2",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"prefix": "builds/"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0005-putbucketpolicy-denied",
+      "eventTime": "2026-08-20T14:05:01Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "PutBucketPolicy",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "errorCode": "AccessDenied",
+      "errorMessage": "Access Denied",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"bucketName": "acme-artifacts-prod"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": false
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0006-getbuckettagging-throttled",
+      "eventTime": "2026-08-20T14:06:02Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "GetBucketTagging",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "errorCode": "SlowDown",
+      "errorMessage": "Please reduce your request rate.",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"bucketName": "acme-artifacts-prod"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "s3-0007-getbucketacl-no-tls-details",
+      "eventTime": "2026-08-20T14:07:03Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "GetBucketAcl",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "cloudtrail.amazonaws.com",
+      "userAgent": "cloudtrail.amazonaws.com",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "invokedBy": "cloudtrail.amazonaws.com",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {"bucketName": "acme-artifacts-prod"},
+      "managementEvent": true,
+      "readOnly": true
+    }
+  ]
+}

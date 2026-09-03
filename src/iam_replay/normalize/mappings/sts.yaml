@@ -1,0 +1,53 @@
+# sts event -> IAM action mappings.
+#
+# Two things here are easy to get wrong and both corrupt the ground-truth
+# oracle if you do:
+#
+# 1. GetCallerIdentity, GetSessionToken and GetAccessKeyInfo require no IAM
+#    permission whatsoever. They are marked requires_no_authorization rather
+#    than mapped to an action: a tight baseline policy would not grant
+#    "sts:GetCallerIdentity" (there is nothing to grant), so mapping it would
+#    produce a DENY on an event that was never authorized in the first place --
+#    a false regression manufactured by the mapper.
+#
+# 2. AssumeRole authorization has two sides: the caller's identity policy and
+#    the target role's trust policy. This tool evaluates identity-based policies
+#    only (spec §2), so the mapping covers the caller side -- sts:AssumeRole on
+#    the target role ARN. A call this tool reports as allowed can still fail on
+#    the trust policy, which is not evaluated here.
+service: sts
+
+events:
+  GetCallerIdentity:
+    requires_no_authorization: true
+
+  GetSessionToken:
+    requires_no_authorization: true
+
+  GetAccessKeyInfo:
+    requires_no_authorization: true
+
+  # roleArn arrives as a complete ARN, so no template assembly and no path loss.
+  AssumeRole:
+    action: sts:AssumeRole
+    resource: "{requestParameters.roleArn}"
+
+  AssumeRoleWithWebIdentity:
+    action: sts:AssumeRoleWithWebIdentity
+    resource: "{requestParameters.roleArn}"
+
+  AssumeRoleWithSAML:
+    action: sts:AssumeRoleWithSAML
+    resource: "{requestParameters.roleArn}"
+
+  DecodeAuthorizationMessage:
+    action: sts:DecodeAuthorizationMessage
+    resource: "*"
+
+  GetFederationToken:
+    action: sts:GetFederationToken
+    resource: "arn:{partition}:sts::{account}:federated-user/{requestParameters.name}"
+
+  TagSession:
+    action: sts:TagSession
+    resource: "{requestParameters.roleArn}"

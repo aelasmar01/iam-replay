@@ -1,0 +1,149 @@
+{
+  "Records": [
+    {
+      "eventVersion": "1.09",
+      "eventID": "sts-0001-getcalleridentity-no-authz-needed",
+      "eventTime": "2026-08-20T14:20:00Z",
+      "eventSource": "sts.amazonaws.com",
+      "eventName": "GetCallerIdentity",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": null,
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "sts-0002-assumerole-success",
+      "eventTime": "2026-08-20T14:20:01Z",
+      "eventSource": "sts.amazonaws.com",
+      "eventName": "AssumeRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {
+        "roleArn": "arn:aws:iam::123456789012:role/service-role/TargetRole",
+        "roleSessionName": "chained"
+      },
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "sts-0003-assumerole-denied",
+      "eventTime": "2026-08-20T14:20:02Z",
+      "eventSource": "sts.amazonaws.com",
+      "eventName": "AssumeRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "errorCode": "AccessDenied",
+      "errorMessage": "User is not authorized to perform: sts:AssumeRole",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}
+        }
+      },
+      "requestParameters": {
+        "roleArn": "arn:aws:iam::123456789012:role/AdminRole",
+        "roleSessionName": "escalate"
+      },
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "sts-0004-assumerole-no-session-issuer",
+      "eventTime": "2026-08-20T14:20:03Z",
+      "eventSource": "sts.amazonaws.com",
+      "eventName": "AssumeRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012"
+      },
+      "requestParameters": {
+        "roleArn": "arn:aws:iam::123456789012:role/service-role/TargetRole",
+        "roleSessionName": "chained"
+      },
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "sts-0005-assumerole-by-aws-service",
+      "eventTime": "2026-08-20T14:20:04Z",
+      "eventSource": "sts.amazonaws.com",
+      "eventName": "AssumeRole",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "lambda.amazonaws.com",
+      "userAgent": "lambda.amazonaws.com",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AWSService",
+        "invokedBy": "lambda.amazonaws.com"
+      },
+      "requestParameters": {
+        "roleArn": "arn:aws:iam::123456789012:role/service-role/DeployRole",
+        "roleSessionName": "deploy-1755698591"
+      },
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "sts-0006-decodeauthorizationmessage",
+      "eventTime": "2026-08-20T14:20:05Z",
+      "eventSource": "sts.amazonaws.com",
+      "eventName": "DecodeAuthorizationMessage",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "userAgent": "aws-cli/2.36.37",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1755698591",
+        "accountId": "123456789012",
+        "sessionContext": {
+          "sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"},
+          "attributes": {"mfaAuthenticated": "true"}
+        }
+      },
+      "requestParameters": {"encodedMessage": "HIDDEN_DUE_TO_SECURITY_REASONS"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    }
+  ]
+}

@@ -1,0 +1,123 @@
+{
+  "Records": [
+    {
+      "eventVersion": "1.09",
+      "eventID": "edge-0001-unsupported-service",
+      "eventTime": "2026-08-20T15:00:00Z",
+      "eventSource": "dynamodb.amazonaws.com",
+      "eventName": "DescribeTable",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1",
+        "accountId": "123456789012",
+        "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}}
+      },
+      "requestParameters": {"tableName": "orders"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "edge-0002-unmapped-event-in-supported-service",
+      "eventTime": "2026-08-20T15:00:01Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "GetBucketInventoryConfiguration",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1",
+        "accountId": "123456789012",
+        "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}}
+      },
+      "requestParameters": {"bucketName": "acme-artifacts-prod"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "edge-0003-blank-error-code-is-success",
+      "eventTime": "2026-08-20T15:00:02Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "GetBucketLocation",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "recipientAccountId": "123456789012",
+      "errorCode": "",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1",
+        "accountId": "123456789012",
+        "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}}
+      },
+      "requestParameters": {"bucketName": "acme-artifacts-prod"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "edge-0004-ec2-unauthorized-operation",
+      "eventTime": "2026-08-20T15:00:03Z",
+      "eventSource": "ec2.amazonaws.com",
+      "eventName": "DescribeInstances",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "recipientAccountId": "123456789012",
+      "errorCode": "Client.UnauthorizedOperation",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws:sts::123456789012:assumed-role/DeployRole/deploy-1",
+        "accountId": "123456789012",
+        "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/service-role/DeployRole"}}
+      },
+      "requestParameters": null,
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "edge-0005-govcloud-partition",
+      "eventTime": "2026-08-20T15:00:04Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListObjectsV2",
+      "awsRegion": "us-gov-west-1",
+      "sourceIPAddress": "203.0.113.42",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "AssumedRole",
+        "arn": "arn:aws-us-gov:sts::123456789012:assumed-role/DeployRole/deploy-1",
+        "accountId": "123456789012",
+        "sessionContext": {"sessionIssuer": {"arn": "arn:aws-us-gov:iam::123456789012:role/DeployRole"}}
+      },
+      "requestParameters": {"bucketName": "gov-bucket"},
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    },
+    {
+      "eventVersion": "1.09",
+      "eventID": "edge-0006-iam-user-principal",
+      "eventTime": "2026-08-20T15:00:05Z",
+      "eventSource": "s3.amazonaws.com",
+      "eventName": "ListBuckets",
+      "awsRegion": "us-east-1",
+      "sourceIPAddress": "203.0.113.42",
+      "recipientAccountId": "123456789012",
+      "userIdentity": {
+        "type": "IAMUser",
+        "arn": "arn:aws:iam::123456789012:user/ops/alice",
+        "accountId": "123456789012",
+        "userName": "alice"
+      },
+      "requestParameters": null,
+      "tlsDetails": {"tlsVersion": "TLSv1.3"},
+      "managementEvent": true,
+      "readOnly": true
+    }
+  ]
+}

@@ -1,0 +1,157 @@
+# iam event -> IAM action mappings.
+#
+# IAM ARNs carry paths (arn:aws:iam::123456789012:role/service-role/AppRole) but
+# requestParameters only ever holds the bare name. A template built from
+# roleName is therefore wrong for any role under a path, so every entry here
+# declares resource_type: the mapper prefers CloudTrail's own resources[]
+# annotation, which does carry the full path, and falls back to the template
+# only when the annotation is absent or ambiguous.
+#
+# IAM is a global service: its ARNs have no region segment.
+service: iam
+
+events:
+  # --- role reads ---
+  GetRole:
+    action: iam:GetRole
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  ListRoles:
+    action: iam:ListRoles
+    resource: "*"
+
+  ListRolePolicies:
+    action: iam:ListRolePolicies
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  GetRolePolicy:
+    action: iam:GetRolePolicy
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  ListAttachedRolePolicies:
+    action: iam:ListAttachedRolePolicies
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  ListInstanceProfilesForRole:
+    action: iam:ListInstanceProfilesForRole
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  # --- role writes ---
+  CreateRole:
+    action: iam:CreateRole
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  DeleteRole:
+    action: iam:DeleteRole
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  UpdateAssumeRolePolicy:
+    action: iam:UpdateAssumeRolePolicy
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  PutRolePolicy:
+    action: iam:PutRolePolicy
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  DeleteRolePolicy:
+    action: iam:DeleteRolePolicy
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  AttachRolePolicy:
+    action: iam:AttachRolePolicy
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  DetachRolePolicy:
+    action: iam:DetachRolePolicy
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  TagRole:
+    action: iam:TagRole
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  UntagRole:
+    action: iam:UntagRole
+    resource_type: AWS::IAM::Role
+    resource: "arn:{partition}:iam::{account}:role/{requestParameters.roleName}"
+
+  # --- managed policies. policyArn is a full ARN in the request, so no
+  # template assembly is needed and paths are preserved. ---
+  GetPolicy:
+    action: iam:GetPolicy
+    resource: "{requestParameters.policyArn}"
+
+  GetPolicyVersion:
+    action: iam:GetPolicyVersion
+    resource: "{requestParameters.policyArn}"
+
+  ListPolicies:
+    action: iam:ListPolicies
+    resource: "*"
+
+  ListPolicyVersions:
+    action: iam:ListPolicyVersions
+    resource: "{requestParameters.policyArn}"
+
+  CreatePolicy:
+    action: iam:CreatePolicy
+    resource_type: AWS::IAM::Policy
+    resource: "arn:{partition}:iam::{account}:policy/{requestParameters.policyName}"
+
+  CreatePolicyVersion:
+    action: iam:CreatePolicyVersion
+    resource: "{requestParameters.policyArn}"
+
+  DeletePolicy:
+    action: iam:DeletePolicy
+    resource: "{requestParameters.policyArn}"
+
+  # --- users ---
+  GetUser:
+    action: iam:GetUser
+    resource_type: AWS::IAM::User
+    resource: "arn:{partition}:iam::{account}:user/{requestParameters.userName}"
+
+  ListUsers:
+    action: iam:ListUsers
+    resource: "*"
+
+  ListAttachedUserPolicies:
+    action: iam:ListAttachedUserPolicies
+    resource_type: AWS::IAM::User
+    resource: "arn:{partition}:iam::{account}:user/{requestParameters.userName}"
+
+  ListUserPolicies:
+    action: iam:ListUserPolicies
+    resource_type: AWS::IAM::User
+    resource: "arn:{partition}:iam::{account}:user/{requestParameters.userName}"
+
+  ListGroupsForUser:
+    action: iam:ListGroupsForUser
+    resource_type: AWS::IAM::User
+    resource: "arn:{partition}:iam::{account}:user/{requestParameters.userName}"
+
+  # --- account-level reads ---
+  ListAccountAliases:
+    action: iam:ListAccountAliases
+    resource: "*"
+
+  GetAccountSummary:
+    action: iam:GetAccountSummary
+    resource: "*"
+
+  ListInstanceProfiles:
+    action: iam:ListInstanceProfiles
+    resource: "*"
