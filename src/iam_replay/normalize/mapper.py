@@ -55,6 +55,11 @@ class _Permission:
     action: str
     resource: str | None
     resource_type: str | None = None
+    #: Substring that picks one entry out of ``resources[]`` when CloudTrail
+    #: types several entries identically. KMS labels both the alias and the key
+    #: as ``AWS::KMS::Key`` on the same event, so the type is useless there and
+    #: the ARN's own resource section is the only thing that separates them.
+    resource_arn_contains: str | None = None
     #: True when the API accepts either a bare name or a full ARN in the same
     #: request field (lambda functionName, kms keyId). When the event carries an
     #: ARN, it is used verbatim instead of being substituted into the template,
@@ -167,13 +172,16 @@ def _parse_permission(entry: Any, path: Path, event_name: str) -> _Permission:
         action=entry["action"],
         resource=entry.get("resource"),
         resource_type=entry.get("resource_type"),
+        resource_arn_contains=entry.get("resource_arn_contains"),
         resource_may_be_arn=bool(entry.get("resource_may_be_arn")),
         note=entry.get("note"),
     )
 
 
 def _resource_from_event_array(
-    event: dict[str, Any], resource_type: str | None
+    event: dict[str, Any],
+    resource_type: str | None,
+    arn_contains: str | None = None,
 ) -> str | None:
     """Prefer CloudTrail's own ``resources[]`` annotation over the template.
 
@@ -190,6 +198,10 @@ def _resource_from_event_array(
     candidates = [r for r in resources if isinstance(r, dict) and r.get("ARN")]
     if not candidates:
         return None
+
+    if arn_contains:
+        matching = [r for r in candidates if arn_contains in r["ARN"]]
+        return matching[0]["ARN"] if len(matching) == 1 else None
 
     if resource_type:
         typed = [r for r in candidates if r.get("type") == resource_type]
@@ -296,7 +308,9 @@ class Mapper:
         if permission.note:
             notes.append(permission.note)
 
-        resource_arn = _resource_from_event_array(event, permission.resource_type)
+        resource_arn = _resource_from_event_array(
+            event, permission.resource_type, permission.resource_arn_contains
+        )
         missing: list[str] = []
         if resource_arn is None and permission.resource is not None:
             if permission.resource_may_be_arn:

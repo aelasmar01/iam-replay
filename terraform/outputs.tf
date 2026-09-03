@@ -25,3 +25,13 @@ output "replay_command" {
     "--source lookup --days 7"
   ])
 }
+
+output "target_role_arn" {
+  description = "Assumed by the workload; capture its events separately."
+  value       = aws_iam_role.target.arn
+}
+
+output "scratch_role_name" {
+  description = "Throwaway role the workload writes an inline policy to."
+  value       = aws_iam_role.scratch.name
+}

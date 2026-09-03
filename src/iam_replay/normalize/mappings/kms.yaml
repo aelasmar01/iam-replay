@@ -140,12 +140,18 @@ events:
     resource_may_be_arn: true
     resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
 
-  # CreateAlias authorizes against both the alias and the target key, so it
-  # expands; every entry is marked INFERRED.
+  # Alias operations authorize against BOTH the alias and the key it points at,
+  # so both expand. Confirmed against real denied traffic: DeleteAlias without
+  # permission on the key fails with "not authorized to perform kms:DeleteAlias
+  # on resource: ...:key/...".
+  #
+  # requestParameters.aliasName already begins with "alias/", so the template
+  # must not add the prefix again -- doing so builds ...:alias/alias/name, which
+  # matches nothing.
   CreateAlias:
     expands_to:
       - action: kms:CreateAlias
-        resource: "arn:{partition}:kms:{region}:{account}:alias/{requestParameters.aliasName}"
+        resource: "arn:{partition}:kms:{region}:{account}:{requestParameters.aliasName}"
       - action: kms:CreateAlias
         resource_may_be_arn: true
         resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.targetKeyId}"
@@ -153,9 +159,19 @@ events:
           CreateAlias is authorized against both the alias and the target key;
           this entry is the key half.
 
+  # DeleteAlias carries no key reference in requestParameters -- only the alias
+  # name -- so the key half comes from resources[]. CloudTrail types both the
+  # alias and the key entry as AWS::KMS::Key on this event, so the type cannot
+  # separate them and the ARN's resource section does it instead.
   DeleteAlias:
-    action: kms:DeleteAlias
-    resource: "arn:{partition}:kms:{region}:{account}:alias/{requestParameters.aliasName}"
+    expands_to:
+      - action: kms:DeleteAlias
+        resource: "arn:{partition}:kms:{region}:{account}:{requestParameters.aliasName}"
+      - action: kms:DeleteAlias
+        resource_arn_contains: ":key/"
+        note: >-
+          DeleteAlias is authorized against the target key as well as the alias;
+          the key is only present in the event's resources[] array.
 
   TagResource:
     action: kms:TagResource

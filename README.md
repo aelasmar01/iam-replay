@@ -222,32 +222,39 @@ control-plane workload whose execution role carries a **deliberately tight** pol
 `tests/test_ground_truth.py` replays that workload's successful calls against that same
 policy:
 
-> **0 false denies across 13 distinct authorization shapes** (52 calls, 5 services)
-> replayed against the live in-force policy.
+> **0 false denies across 32 distinct authorization shapes** (173 calls, all six services,
+> reads and writes) replayed against the live in-force policy. 31 resolve to `ALLOW`; one is
+> honestly `INDETERMINATE` — a failed `kms:DeleteAlias` that CloudTrail recorded with no
+> request parameters at all, so there is nothing to build a resource ARN from.
 
 ### What that number does not cover
 
 Three things, and they matter more than the number does.
 
-**It covers 9% of the mapping surface.** The fixture workload makes 15 calls, so the oracle
-exercises 14 of the 158 event mappings this repo declares. The other 144 are backed only by
+**It covers 15% of the mapping surface.** The fixture workload makes 27 calls, so the oracle
+exercises 25 of the 164 event mappings this repo declares. The rest are backed only by
 hand-written fixtures — the weaker instrument this section opens by warning about.
 
 | Service | Oracle-validated | Declared |
 |---|---:|---:|
-| `ec2` | 3 | 35 |
-| `iam` | 3 | 30 |
-| `kms` | 2 | 24 |
-| `lambda` | 2 | 27 |
-| `s3` | 3 | 33 |
-| `sts` | 1 | 9 |
-| **Total** | **14** | **158** |
+| `ec2` | 5 | 35 |
+| `iam` | 5 | 30 |
+| `kms` | 4 | 24 |
+| `lambda` | 4 | 32 |
+| `s3` | 5 | 34 |
+| `sts` | 2 | 9 |
+| **Total** | **25** | **164** |
 
-`sts` is worse than that row suggests: its one exercised event is `GetCallerIdentity`, which
-requires no IAM permission and therefore produces no authorization request at all. **No
-`sts` mapping — `sts:AssumeRole` included — is validated by the oracle.** Every validated
-shape is also a read: no write path, and no multi-permission expansion such as
-`ec2:RunInstances`, has ever been checked against real traffic.
+
+`sts:AssumeRole` now has real coverage: the workload assumes a second fixture role on every
+run, and that role deliberately lives under a path, so `sessionIssuer` attribution is
+exercised on traffic AWS produced rather than only on hand-built fixtures. Write paths are
+covered too — the workload creates and deletes a security group, an inline role policy, a KMS
+alias, bucket tags and function tags, returning the account to its starting state each run.
+
+What remains asserted rather than tested: `ec2:RunInstances` and its multi-permission
+expansion, which would need a real instance launch, and the great majority of every mapping
+file. **139 of 164 mappings have still never met AWS.**
 
 `pytest tests/test_ground_truth.py -s` prints this table from the code, so it cannot drift
 from what is actually covered.

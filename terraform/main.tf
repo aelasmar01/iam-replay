@@ -40,7 +40,25 @@ locals {
   data_bucket   = "${var.name_prefix}-data-${local.suffix}"
   trail_bucket  = "${var.name_prefix}-trail-${local.suffix}"
 
-  role_arn     = "arn:${local.partition}:iam::${local.account_id}:role/${local.role_name}"
+  scratch_role_name = "${var.name_prefix}-scratch"
+  target_role_name  = "${var.name_prefix}-target"
+
+  # The target role sits under a path, deliberately. Resolving its session ARN
+  # back to the role ARN is only possible through sessionContext.sessionIssuer;
+  # string-parsing an assumed-role ARN silently drops the path and yields a role
+  # ARN no correct policy matches. Putting a path here means real traffic
+  # exercises that, instead of only the hand-built fixtures.
+  #
+  # The path is chosen so the role ARN still matches an IAM grant scoped to
+  # role/iam-replay-fixture-*.
+  role_path = "/${var.name_prefix}-roles/"
+
+  scratch_sg_name = "${var.name_prefix}-scratch"
+  scratch_alias   = "alias/${var.name_prefix}-scratch"
+
+  role_arn         = "arn:${local.partition}:iam::${local.account_id}:role/${local.role_name}"
+  scratch_role_arn = "arn:${local.partition}:iam::${local.account_id}:role/${local.scratch_role_name}"
+  target_role_arn  = "arn:${local.partition}:iam::${local.account_id}:role${local.role_path}${local.target_role_name}"
   function_arn = "arn:${local.partition}:lambda:${var.region}:${local.account_id}:function:${local.function_name}"
   log_group_arn = "arn:${local.partition}:logs:${var.region}:${local.account_id}:log-group:/aws/lambda/${local.function_name}:*"
 
@@ -55,6 +73,10 @@ locals {
     function_arn  = local.function_arn
     key_arn       = aws_kms_key.fixture.arn
     log_group_arn = local.log_group_arn
+
+    scratch_role_arn = local.scratch_role_arn
+    target_role_arn  = local.target_role_arn
+    scratch_alias    = local.scratch_alias
   }
 }
 
@@ -155,6 +177,53 @@ resource "aws_iam_role_policy" "tight_baseline" {
   policy = templatefile("${path.module}/policies/policy-tight-baseline.json.tpl", local.policy_vars)
 }
 
+# A throwaway role that exists only to have an inline policy written to it and
+# deleted again. It is never assumed and grants nothing.
+resource "aws_iam_role" "scratch" {
+  name = local.scratch_role_name
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Deny"
+      Principal = { Service = "lambda.amazonaws.com" }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+# The role the workload assumes, so sts:AssumeRole is exercised against a real
+# target ARN. Under a path -- see the comment on local.role_path.
+resource "aws_iam_role" "target" {
+  name = local.target_role_name
+  path = local.role_path
+
+  assume_role_policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect    = "Allow"
+      Principal = { AWS = local.role_arn }
+      Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+# One permission, for the single call made under the assumed session.
+resource "aws_iam_role_policy" "target" {
+  name = "assumed-session-probe"
+  role = aws_iam_role.target.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Sid      = "ListAllBuckets"
+      Effect   = "Allow"
+      Action   = "s3:ListAllMyBuckets"
+      Resource = "*"
+    }]
+  })
+}
+
 # --- the workload ------------------------------------------------------------
 
 # The handler is rendered from a template rather than given environment
@@ -173,6 +242,11 @@ data "archive_file" "workload" {
       role_name     = local.role_name
       function_name = local.function_name
       kms_key_id    = aws_kms_key.fixture.key_id
+      function_arn      = local.function_arn
+      scratch_role_name = local.scratch_role_name
+      target_role_arn   = local.target_role_arn
+      scratch_sg_name   = local.scratch_sg_name
+      scratch_alias     = local.scratch_alias
     })
   }
 }

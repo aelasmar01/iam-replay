@@ -94,8 +94,26 @@ def test_the_indeterminate_gate_is_independent_of_the_deny_gate(runner, tmp_path
     assert "INDETERMINATE" in result.output
 
 
-def test_a_clean_run_passes_both_gates(runner):
-    assert run(runner, "--fail-on-deny", "--fail-on-indeterminate").exit_code == EXIT_OK
+def test_a_clean_run_passes_the_deny_gate(runner):
+    """Against the policy that authorized it, real traffic yields no denies.
+
+    The indeterminate gate is deliberately *not* asserted here. Real traffic
+    contains failed calls, and CloudTrail withholds requestParameters on some of
+    them -- a kms:DeleteAlias that came back NotFound carries no alias name at
+    all, so there is nothing to build a resource ARN from. Reporting that as
+    unknown is correct, and a test demanding zero unknowns on live traffic would
+    be demanding the tool guess.
+    """
+    assert run(runner, "--fail-on-deny").exit_code == EXIT_OK
+
+
+def test_every_indeterminate_on_real_traffic_explains_itself(runner):
+    """Whatever cannot be resolved must say why, with a reason a reader can act
+    on -- otherwise the gate above is just noise."""
+    document = json.loads(run(runner, "--format", "json").output)
+    for entry in document["indeterminate"]:
+        assert entry["reason"]
+        assert entry["unevaluable_condition_keys"] or entry["resource"] is None
 
 
 def test_missing_policy_file_is_a_tool_error(runner):

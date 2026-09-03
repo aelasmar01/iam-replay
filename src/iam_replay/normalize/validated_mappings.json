@@ -5,33 +5,46 @@
     "ec2": 35,
     "iam": 30,
     "kms": 24,
-    "lambda": 27,
-    "s3": 33,
+    "lambda": 32,
+    "s3": 34,
     "sts": 9
   },
   "validated": {
     "ec2": [
+      "CreateSecurityGroup",
+      "DeleteSecurityGroup",
       "DescribeInstances",
       "DescribeSecurityGroups",
       "DescribeVpcs"
     ],
     "iam": [
+      "DeleteRolePolicy",
       "GetRole",
       "ListAttachedRolePolicies",
-      "ListRoles"
+      "ListRoles",
+      "PutRolePolicy"
     ],
     "kms": [
+      "CreateAlias",
+      "DeleteAlias",
       "DescribeKey",
       "ListAliases"
     ],
     "lambda": [
       "GetFunction20150331v2",
-      "ListFunctions20150331"
+      "ListFunctions20150331",
+      "TagResource20170331v2",
+      "UntagResource20170331v2"
     ],
     "s3": [
+      "DeleteBucketTagging",
       "GetBucketLocation",
       "GetBucketVersioning",
-      "ListBuckets"
+      "ListBuckets",
+      "PutBucketTagging"
+    ],
+    "sts": [
+      "AssumeRole"
     ]
   }
 }

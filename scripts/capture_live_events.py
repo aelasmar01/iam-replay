@@ -107,6 +107,12 @@ def main() -> int:
     parser.add_argument("--region", default=None)
     parser.add_argument("--out", default="tests/fixtures/cloudtrail/live")
     parser.add_argument(
+        "--name",
+        default="workload_events",
+        help="Basename for the captured file, so a second principal can be "
+             "captured alongside the workload role without overwriting it.",
+    )
+    parser.add_argument(
         "--max-events",
         type=int,
         default=2000,
@@ -151,7 +157,7 @@ def main() -> int:
 
     out_dir = Path(args.out)
     out_dir.mkdir(parents=True, exist_ok=True)
-    out_path = out_dir / "workload_events.json"
+    out_path = out_dir / f"{args.name}.json"
     out_path.write_text(json.dumps({"Records": captured}, indent=2, sort_keys=True) + "\n")
 
     manifest = {
@@ -167,7 +173,7 @@ def main() -> int:
             "Regenerate with scripts/capture_live_events.py after changing the workload."
         ),
     }
-    (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
+    (out_dir / f"{args.name}-manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
     found = {
         account

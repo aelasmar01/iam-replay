@@ -135,9 +135,16 @@ events:
     resource: "arn:{partition}:ec2:{region}:{account}:instance/{requestParameters.instanceId}"
 
   # --- security groups ---
+  # Authorizes against both the group being created and the VPC it goes into,
+  # so it expands and every entry is marked INFERRED. The group ID is generated
+  # by the call and is not in requestParameters, so that entry cannot be scoped
+  # further than security-group/*.
   CreateSecurityGroup:
-    action: ec2:CreateSecurityGroup
-    resource: "arn:{partition}:ec2:{region}:{account}:security-group/*"
+    expands_to:
+      - action: ec2:CreateSecurityGroup
+        resource: "arn:{partition}:ec2:{region}:{account}:security-group/*"
+      - action: ec2:CreateSecurityGroup
+        resource: "arn:{partition}:ec2:{region}:{account}:vpc/{requestParameters.vpcId}"
   DeleteSecurityGroup:
     action: ec2:DeleteSecurityGroup
     resource: "arn:{partition}:ec2:{region}:{account}:security-group/{requestParameters.groupId}"

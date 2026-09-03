@@ -67,6 +67,69 @@
       "Resource": "*"
     },
     {
+      "Sid": "CreateScratchSecurityGroup",
+      "Effect": "Allow",
+      "Action": "ec2:CreateSecurityGroup",
+      "Resource": [
+        "arn:aws:ec2:us-east-1:123456789012:security-group/*",
+        "arn:aws:ec2:us-east-1:123456789012:vpc/*"
+      ]
+    },
+    {
+      "Sid": "DeleteScratchSecurityGroup",
+      "Effect": "Allow",
+      "Action": "ec2:DeleteSecurityGroup",
+      "Resource": "arn:aws:ec2:us-east-1:123456789012:security-group/*"
+    },
+    {
+      "Sid": "WriteScratchRolePolicy",
+      "Effect": "Allow",
+      "Action": [
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy"
+      ],
+      "Resource": "arn:aws:iam::123456789012:role/iam-replay-fixture-scratch"
+    },
+    {
+      "Sid": "ManageScratchAlias",
+      "Effect": "Allow",
+      "Action": [
+        "kms:CreateAlias",
+        "kms:DeleteAlias"
+      ],
+      "Resource": "arn:aws:kms:us-east-1:123456789012:alias/iam-replay-fixture-scratch"
+    },
+    {
+      "Sid": "AliasTargetKey",
+      "Effect": "Allow",
+      "Action": [
+        "kms:CreateAlias",
+        "kms:DeleteAlias"
+      ],
+      "Resource": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
+    },
+    {
+      "Sid": "TagTheFixtureBucket",
+      "Effect": "Allow",
+      "Action": "s3:PutBucketTagging",
+      "Resource": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9"
+    },
+    {
+      "Sid": "TagOwnFunction",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:TagResource",
+        "lambda:UntagResource"
+      ],
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload"
+    },
+    {
+      "Sid": "AssumeTargetRole",
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "arn:aws:iam::123456789012:role/iam-replay-fixture-roles/iam-replay-fixture-target"
+    },
+    {
       "Sid": "WriteOwnLogs",
       "Effect": "Allow",
       "Action": [

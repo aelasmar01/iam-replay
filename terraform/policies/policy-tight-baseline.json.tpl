@@ -67,6 +67,69 @@
       "Resource": "*"
     },
     {
+      "Sid": "CreateScratchSecurityGroup",
+      "Effect": "Allow",
+      "Action": "ec2:CreateSecurityGroup",
+      "Resource": [
+        "arn:${partition}:ec2:${region}:${account_id}:security-group/*",
+        "arn:${partition}:ec2:${region}:${account_id}:vpc/*"
+      ]
+    },
+    {
+      "Sid": "DeleteScratchSecurityGroup",
+      "Effect": "Allow",
+      "Action": "ec2:DeleteSecurityGroup",
+      "Resource": "arn:${partition}:ec2:${region}:${account_id}:security-group/*"
+    },
+    {
+      "Sid": "WriteScratchRolePolicy",
+      "Effect": "Allow",
+      "Action": [
+        "iam:PutRolePolicy",
+        "iam:DeleteRolePolicy"
+      ],
+      "Resource": "${scratch_role_arn}"
+    },
+    {
+      "Sid": "ManageScratchAlias",
+      "Effect": "Allow",
+      "Action": [
+        "kms:CreateAlias",
+        "kms:DeleteAlias"
+      ],
+      "Resource": "arn:${partition}:kms:${region}:${account_id}:${scratch_alias}"
+    },
+    {
+      "Sid": "AliasTargetKey",
+      "Effect": "Allow",
+      "Action": [
+        "kms:CreateAlias",
+        "kms:DeleteAlias"
+      ],
+      "Resource": "${key_arn}"
+    },
+    {
+      "Sid": "TagTheFixtureBucket",
+      "Effect": "Allow",
+      "Action": "s3:PutBucketTagging",
+      "Resource": "arn:${partition}:s3:::${data_bucket}"
+    },
+    {
+      "Sid": "TagOwnFunction",
+      "Effect": "Allow",
+      "Action": [
+        "lambda:TagResource",
+        "lambda:UntagResource"
+      ],
+      "Resource": "${function_arn}"
+    },
+    {
+      "Sid": "AssumeTargetRole",
+      "Effect": "Allow",
+      "Action": "sts:AssumeRole",
+      "Resource": "${target_role_arn}"
+    },
+    {
       "Sid": "WriteOwnLogs",
       "Effect": "Allow",
       "Action": [

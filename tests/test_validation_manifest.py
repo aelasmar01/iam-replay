@@ -39,11 +39,17 @@ def test_every_validated_pair_is_a_real_mapping(mapper):
         assert event_name in mapper._mappings[service], f"{service}:{event_name}"
 
 
+def test_sts_assume_role_is_now_validated():
+    """It was the most-relied-on mapping with nothing behind it. The fixture
+    workload now assumes a real second role, so it has real coverage."""
+    assert validation.is_validated("sts", "AssumeRole")
+
+
 def test_unvalidated_mappings_are_reported_as_such():
-    """sts:AssumeRole is the mapping most likely to be relied on and least
-    likely to be validated, so it is worth pinning explicitly."""
-    assert not validation.is_validated("sts", "AssumeRole")
+    """ec2:RunInstances remains asserted rather than tested: validating it means
+    launching a real instance, which is deliberately out of scope."""
     assert not validation.is_validated("ec2", "RunInstances")
+    assert not validation.is_validated("iam", "CreateRole")
     assert not validation.is_validated(None, "GetRole")
 
 

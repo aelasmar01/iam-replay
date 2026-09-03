@@ -4,6 +4,13 @@
 # s3:ListBucket. Bucket ARNs have no account or region segment, which is why
 # every template here is arn:{partition}:s3:::{bucket}.
 #
+# Bucket-scoped entries declare resource_type so CloudTrail's resources[]
+# annotation wins over the template. This is not a preference, it is a
+# necessity: PutBucketTagging carries no bucketName in requestParameters at all
+# -- only Host and the tag set -- while DeleteBucketTagging does. s3 is
+# inconsistent about this across its own APIs, and resources[] is populated for
+# both.
+#
 # Object-level events (GetObject, PutObject) are CloudTrail *data events* and
 # are off by default in most trails. They are mapped so that a trail which does
 # record them is handled correctly -- not because their absence can be detected.
@@ -19,117 +26,153 @@ events:
 
   ListObjects:
     action: s3:ListBucket
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   ListObjectsV2:
     action: s3:ListBucket
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   ListObjectVersions:
     action: s3:ListBucketVersions
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   ListMultipartUploads:
     action: s3:ListBucketMultipartUploads
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   HeadBucket:
     action: s3:ListBucket
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketLocation:
     action: s3:GetBucketLocation
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   # --- bucket lifecycle ---
   CreateBucket:
     action: s3:CreateBucket
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   DeleteBucket:
     action: s3:DeleteBucket
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   # --- bucket configuration reads ---
   GetBucketPolicy:
     action: s3:GetBucketPolicy
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketPolicyStatus:
     action: s3:GetBucketPolicyStatus
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketAcl:
     action: s3:GetBucketAcl
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketVersioning:
     action: s3:GetBucketVersioning
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketTagging:
     action: s3:GetBucketTagging
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketEncryption:
     action: s3:GetEncryptionConfiguration
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketPublicAccessBlock:
     action: s3:GetBucketPublicAccessBlock
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketLogging:
     action: s3:GetBucketLogging
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketLifecycle:
     action: s3:GetLifecycleConfiguration
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   GetBucketNotification:
     action: s3:GetBucketNotification
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   # --- bucket configuration writes ---
   PutBucketPolicy:
     action: s3:PutBucketPolicy
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   DeleteBucketPolicy:
     action: s3:DeleteBucketPolicy
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketAcl:
     action: s3:PutBucketAcl
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketVersioning:
     action: s3:PutBucketVersioning
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketTagging:
     action: s3:PutBucketTagging
+    resource_type: AWS::S3::Bucket
+    resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
+
+  # Removing bucket tags is authorized by s3:PutBucketTagging, not by a
+  # "DeleteBucketTagging" action -- there is no such action. eventName is not
+  # the IAM action, and this is one of the clearer cases.
+  DeleteBucketTagging:
+    action: s3:PutBucketTagging
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketEncryption:
     action: s3:PutEncryptionConfiguration
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketPublicAccessBlock:
     action: s3:PutBucketPublicAccessBlock
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketLogging:
     action: s3:PutBucketLogging
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketLifecycle:
     action: s3:PutLifecycleConfiguration
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   PutBucketNotification:
     action: s3:PutBucketNotification
+    resource_type: AWS::S3::Bucket
     resource: "arn:{partition}:s3:::{requestParameters.bucketName}"
 
   # --- object level (data events; usually absent from a trail) ---

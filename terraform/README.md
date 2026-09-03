@@ -11,7 +11,9 @@ must yield `ALLOW` for every one. **Any `DENY` is a mapper bug.**
 | Resource | Why |
 |---|---|
 | IAM role `iam-replay-fixture-workload` | The principal under test. Carries `policy-tight-baseline.json` as an inline policy — see below. |
-| Lambda `iam-replay-fixture-workload` | Makes a fixed, deterministic set of 15 control-plane calls across all six allowlisted services. |
+| IAM role `iam-replay-fixture-scratch` | A throwaway role that exists only to have an inline policy written to it and deleted again. Never assumed, grants nothing. |
+| IAM role `iam-replay-fixture-roles/iam-replay-fixture-target` | Assumed by the workload, so `sts:AssumeRole` runs against a real target. **Under a path deliberately** — resolving its session ARN is only possible through `sessionIssuer`, so real traffic exercises the case that string-parsing gets wrong. |
+| Lambda `iam-replay-fixture-workload` | Makes a fixed, deterministic set of 27 control-plane calls across all six allowlisted services, including create-then-delete write pairs. |
 | EventBridge rule, `rate(5 minutes)` | Keeps producing events so the window stays populated. |
 | S3 data bucket | Gives the workload a real bucket to make bucket-level calls against. |
 | KMS key + alias | Gives the workload a resource-scoped `kms:DescribeKey` call. |
@@ -19,6 +21,26 @@ must yield `ALLOW` for every one. **Any `DENY` is a mapper bug.**
 
 **Cost: roughly $1–2/month**, almost entirely the KMS key ($1/mo). Lambda and EventBridge
 stay inside the free tier; S3 and the trail are cents.
+
+The write paths added no measurable cost. Security groups, IAM role policies, KMS aliases,
+bucket tags and function tags are all free to create and delete; `sts:AssumeRole` is free;
+and the extra CloudTrail management events cost nothing on a first trail. The only
+increments are a slightly longer Lambda duration and a few more objects in the trail
+bucket, both far inside the free tier.
+
+## Write paths and self-cleaning
+
+Every write is a create-then-delete pair that leaves the account exactly as it found it, and
+each pair also cleans up defensively *before* creating, so a run that died halfway does not
+wedge the next one. `kms:CreateAlias` returning `AlreadyExists` is treated as "a previous run
+left this behind" and still proceeds to the delete — an early return there once left an alias
+in place permanently and broke every subsequent run.
+
+**`s3:PutObject` and `s3:DeleteObject` are deliberately absent.** Object-level calls are
+CloudTrail data events, so they would never reach the trail, the baseline permission granting
+them could never be pinned by a negative control, and keeping the suite green would mean
+widening the not-recorded exemption set. `PutBucketTagging` / `DeleteBucketTagging` exercises
+the same s3 write path and is actually recorded.
 
 ## The policy actually in force is the tight baseline
 
@@ -58,14 +80,22 @@ S3 trail delivery lags 5–15 minutes.
 ```bash
 # Verify the baseline really is sufficient: every call must succeed.
 aws lambda invoke --function-name iam-replay-fixture-workload /dev/stdout
-# => {"ok": 15, "failed": {}}
+# => {"ok": 27, "failed": {}}
 
 # Snapshot real events into the committed test fixture, scrubbing the account ID.
 python scripts/capture_live_events.py \
   --principal "$(terraform -chdir=terraform output -raw role_arn)" \
   --days 1 --out tests/fixtures/cloudtrail/live
 
-pytest tests/test_ground_truth.py -s
+# And the second principal: calls made under the assumed session, which prove
+# sessionIssuer attribution on real traffic.
+python scripts/capture_live_events.py \
+  --principal "$(terraform -chdir=terraform output -raw target_role_arn)" \
+  --days 1 --name assumed_session_events --out tests/fixtures/cloudtrail/live
+
+python scripts/refresh_validation_manifest.py
+
+pytest tests/test_ground_truth.py tests/test_negative_control.py -s
 ```
 
 **Use `--since` rather than `--days` after changing the workload.** Older events in the
