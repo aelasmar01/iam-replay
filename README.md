@@ -239,10 +239,9 @@ control-plane workload whose execution role carries a **deliberately tight** pol
 `tests/test_ground_truth.py` replays that workload's successful calls against that same
 policy:
 
-> **0 false denies across 32 distinct authorization shapes** (173 calls, all six services,
-> reads and writes) replayed against the live in-force policy. 31 resolve to `ALLOW`; one is
-> honestly `INDETERMINATE` — a failed `kms:DeleteAlias` that CloudTrail recorded with no
-> request parameters at all, so there is nothing to build a resource ARN from.
+> **0 false denies across 35 distinct authorization shapes** (284 calls, all six services,
+> reads and writes) replayed against the live in-force policy. Every shape resolves to
+> `ALLOW`; nothing is left unresolved.
 
 ### What that number does not cover
 

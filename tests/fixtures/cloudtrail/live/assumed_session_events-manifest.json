@@ -1,10 +1,10 @@
 {
-  "captured_at": "2026-09-03T07:05:13.415205+00:00",
+  "captured_at": "2026-09-03T17:42:43.752085+00:00",
   "principal": "arn:aws:iam::123456789012:role/iam-replay-fixture-roles/iam-replay-fixture-target",
   "requested_days": 1,
-  "since": "2026-09-03T06:58:30Z",
-  "events_scanned": 260,
-  "events_captured": 6,
+  "since": "2026-09-03T17:36:05Z",
+  "events_scanned": 272,
+  "events_captured": 8,
   "account_id_replaced_with": "123456789012",
   "note": "Real CloudTrail events from the fixture workload, account ID scrubbed. Regenerate with scripts/capture_live_events.py after changing the workload."
 }

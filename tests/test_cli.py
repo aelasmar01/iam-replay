@@ -97,12 +97,13 @@ def test_the_indeterminate_gate_is_independent_of_the_deny_gate(runner, tmp_path
 def test_a_clean_run_passes_the_deny_gate(runner):
     """Against the policy that authorized it, real traffic yields no denies.
 
-    The indeterminate gate is deliberately *not* asserted here. Real traffic
-    contains failed calls, and CloudTrail withholds requestParameters on some of
-    them -- a kms:DeleteAlias that came back NotFound carries no alias name at
-    all, so there is nothing to build a resource ARN from. Reporting that as
-    unknown is correct, and a test demanding zero unknowns on live traffic would
-    be demanding the tool guess.
+    The indeterminate gate is deliberately *not* asserted here, even though the
+    current snapshot happens to contain no unknowns at all. Real traffic can
+    contain failed calls that CloudTrail records without requestParameters --
+    the fixture used to produce exactly that, a kms:DeleteAlias that came back
+    NotFound and carried no alias name to build an ARN from. Reporting those as
+    unknown is correct, so a test demanding zero unknowns on captured traffic
+    would be demanding the tool guess the next time one appears.
     """
     assert run(runner, "--fail-on-deny").exit_code == EXIT_OK
 

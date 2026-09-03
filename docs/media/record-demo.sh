@@ -36,7 +36,7 @@ iam-replay --principal "$ROLE" --policy tests/fixtures/cloudtrail/live/policy-ca
   --source files --path $EV --days 3650 2>/dev/null | sed -n '/WOULD DENY/,/^NEW ACCESS/p' | sed '$d'
 sleep 4.5
 
-say "Two calls break outright. Three more it refuses to guess at, and says why."
+say "Two calls break outright. Two more it will not guess at, and it says why."
 say "A wrong ALLOW breaks production. A wrong DENY destroys trust in the report."
 say "Both are worse than an honest INDETERMINATE."
 sleep 2.5

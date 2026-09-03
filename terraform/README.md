@@ -36,6 +36,22 @@ wedge the next one. `kms:CreateAlias` returning `AlreadyExists` is treated as "a
 left this behind" and still proceeds to the delete — an early return there once left an alias
 in place permanently and broke every subsequent run.
 
+The alias delete waits two seconds for the create to settle first. KMS aliases are eventually
+consistent and measurably so: counted from the trail, a `DeleteAlias` issued immediately after
+a successful `CreateAlias` came back `NotFound` on **92 of 142 runs**. Each of those attempts
+is still a CloudTrail event, and AWS records a failed `DeleteAlias` with
+`requestParameters: null` — nothing to build a resource ARN from — so they arrived in the
+report as `unknown_resource` and became the largest single group of unknowns in the fixture.
+The tool was handling them correctly; the workload was generating noise about itself. The
+retry loop remains as a backstop rather than the normal path. The wait costs about 0.5% of the
+Lambda free tier.
+
+**The workload is not safe under concurrent invocation.** Every run uses the same scratch
+alias, security group and inline policy names, so two overlapping runs race: one creates, the
+other sees `AlreadyExists` and deletes, and the first one's delete finds nothing. The
+`rate(5 minutes)` schedule runs them sequentially, so this does not occur in normal operation —
+but firing `aws lambda invoke` several times in quick succession will reproduce it.
+
 **`s3:PutObject` and `s3:DeleteObject` are deliberately absent.** Object-level calls are
 CloudTrail data events, so they would never reach the trail, the baseline permission granting
 them could never be pinned by a negative control, and keeping the suite green would mean

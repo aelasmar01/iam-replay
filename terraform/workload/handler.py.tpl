@@ -158,27 +158,47 @@ def _inline_role_policy_pair(iam, results):
 def _kms_alias_pair(kms, results):
     """kms: create and delete an alias against the fixture key.
 
-    KMS aliases are eventually consistent: a DeleteAlias issued immediately
-    after a successful CreateAlias can come back NotFound. The delete therefore
-    retries, and -- more importantly -- runs even when the create failed,
-    because an AlreadyExists from a previous run's leftover is exactly the case
-    that must still be cleaned up. An early return here left the alias behind
-    permanently and wedged every later run.
+    KMS aliases are eventually consistent, and measurably so: a DeleteAlias
+    issued immediately after a successful CreateAlias came back NotFound on 65%
+    of runs (92 of 142, counted from the trail). Each of those attempts is still
+    a CloudTrail event, and AWS records a failed DeleteAlias with
+    requestParameters: null -- nothing to build a resource ARN from -- so they
+    arrived in the report as unknown_resource and became the single largest
+    group of unknowns in the fixture. The tool was handling them correctly;
+    the workload was just generating noise about itself.
+
+    So the delete waits for the create to settle before its first attempt. The
+    retry loop stays as a backstop rather than the normal path.
+
+    The delete still runs even when the create failed, because an AlreadyExists
+    from a previous run's leftover is exactly the case that must be cleaned up.
+    An early return here once left the alias behind permanently and wedged every
+    later run.
     """
+    #: How long to let a CreateAlias settle before deleting it. Only paid when
+    #: this run actually created the alias.
+    settle_seconds = 2.0
+
+    created = False
     try:
         kms.create_alias(AliasName=SCRATCH_ALIAS, TargetKeyId=KMS_KEY_ID)
         results["kms:CreateAlias"] = "ok"
+        created = True
     except Exception as exc:  # noqa: BLE001
         if type(exc).__name__ == "AlreadyExistsException":
+            # A leftover is already consistent; nothing to wait for.
             results["kms:CreateAlias"] = "alias left over from a previous run; cleaning up"
         else:
             results["kms:CreateAlias"] = f"{type(exc).__name__}: {exc}"
+
+    if created:
+        time.sleep(settle_seconds)
 
     last = None
     for attempt in range(4):
         try:
             kms.delete_alias(AliasName=SCRATCH_ALIAS)
-            results["kms:DeleteAlias"] = "ok"
+            results["kms:DeleteAlias"] = "ok" if attempt == 0 else f"ok after {attempt} retries"
             return
         except Exception as exc:  # noqa: BLE001
             last = exc
