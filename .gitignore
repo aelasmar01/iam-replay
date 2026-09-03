@@ -30,3 +30,6 @@ trail-data/
 
 # Rendered fixture policies carry a real account ID and bucket names
 terraform/rendered/
+
+# Internal planning material stays out of the public repo
+docs/implementation-plan.md
