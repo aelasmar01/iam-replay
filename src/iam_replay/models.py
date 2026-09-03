@@ -73,6 +73,12 @@ class Reason(str, Enum):
     #: The policy referenced a key CloudTrail never carries at all (§6).
     NEVER_AVAILABLE_CONDITION_KEY = "never_available_condition_key"
 
+    #: No Allow in the candidate policy matches, but the target service's
+    #: resources can carry a resource-based policy that grants the call
+    #: independently of any identity policy. This tool evaluates identity
+    #: policies only, so the absence of an Allow is not decisive there.
+    RESOURCE_POLICY_UNEVALUABLE = "resource_policy_unevaluable"
+
     #: Not an indeterminate result: the API requires no IAM permission at all
     #: (sts:GetCallerIdentity is the canonical case), so there is nothing to
     #: authorize. These events are excluded from every verdict bucket. Mapping

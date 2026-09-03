@@ -166,12 +166,26 @@ cannot tell them.
 1. **Data events are usually absent.** Object- and item-level calls are off by default in
    most trails, so they are not evaluated. A clean result for a data-plane role is close to
    meaningless. See "Who this is for".
-2. **Only identity-based policies are evaluated.** Service control policies, session
-   policies, and resource-based policies (S3 bucket policies, KMS key policies) are not. A
-   call authorized *solely* by a resource-based policy appears here as a deny that would not
-   actually occur. This is not hypothetical: the fixture hit it immediately, because Lambda
-   decrypts environment variables under the execution role's credentials against a key it is
-   granted by the key policy alone.
+2. **Only identity-based policies are evaluated**, but the tool no longer pretends
+   otherwise. Service control policies and session policies are not evaluated at all.
+   Resource-based policies are not evaluated either — instead, when no `Allow` matches and
+   the target service is one whose resources can carry their own policy (`s3`, `kms`,
+   `lambda`, and `secretsmanager`/`sqs`/`sns` once those are in scope), the result is
+   `INDETERMINATE` with reason `resource_policy_unevaluable` rather than a confident
+   `WOULD DENY`. AWS's own evaluation logic makes this necessary: within one account it does
+   not matter whether the `Allow` comes from the identity policy or the resource policy, and
+   their worked example has a principal with *no* identity policy who still has full access.
+   The fixture hit it immediately — Lambda decrypts environment variables under the execution
+   role's credentials against a key granted by the key policy alone.
+
+   Explicit denies and permission boundaries are unaffected: an explicit `Deny` in the
+   identity policy wins regardless of service, and a boundary that omits an action denies it,
+   because no resource policy overrides either.
+
+   **`sts` is deliberately excluded from that set, and it is the least certain call in the
+   list.** A role trust policy *is* a resource-based policy, and for same-account
+   `sts:AssumeRole` it can grant on its own — so `sts:AssumeRole` implicit denies are still
+   reported confidently and arguably should not be. Raise an issue if you hit this.
 3. **Six services.** `s3`, `iam`, `sts`, `ec2`, `lambda`, `kms`. Anything else resolves to
    `INDETERMINATE` with reason `unsupported_service` — a correct answer, not a failure.
 4. **Tag-based conditions can never be evaluated.** `aws:ResourceTag/*`,

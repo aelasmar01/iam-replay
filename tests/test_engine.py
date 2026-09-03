@@ -6,6 +6,8 @@ policies: explicit Deny > explicit Allow > implicit deny.
 
 from __future__ import annotations
 
+from dataclasses import replace
+
 import pytest
 
 from iam_replay.models import (
@@ -23,6 +25,18 @@ from iam_replay.evaluate.engine import (
 
 ROLE = "arn:aws:iam::123456789012:role/DeployRole"
 BUCKET = "arn:aws:s3:::acme-artifacts-prod"
+TARGET_ROLE = "arn:aws:iam::123456789012:role/TargetRole"
+
+
+def confident_request(action: str = "iam:GetRole", **kwargs) -> AuthorizationRequest:
+    """A request on a service with no resource-based policy mechanism.
+
+    Used wherever a test asserts that an implicit deny is *confident*. On s3,
+    kms or lambda that assertion is no longer true -- a resource policy could
+    grant the call and this evaluator cannot see it -- so those tests would be
+    asserting the wrong thing if they kept the default s3 action.
+    """
+    return request(action=action, resource=kwargs.pop("resource", TARGET_ROLE), **kwargs)
 
 
 def request(
@@ -116,11 +130,11 @@ def test_unevaluable_allow_still_denies_when_no_allow_could_apply():
     """Absence of an Allow needs no context, so an implicit deny stays
     confident even when some other statement was unevaluable."""
     decision = evaluate_request(
-        request(action="s3:DeleteBucket"),
+        confident_request(action="iam:DeleteRole"),
         policy(
             allow(
-                Action="s3:ListBucket",
-                Resource=BUCKET,
+                Action="iam:GetRole",
+                Resource=TARGET_ROLE,
                 Condition={"Bool": {"aws:SecureTransport": "true"}},
             )
         ),
@@ -144,24 +158,26 @@ def test_explicit_deny_beats_explicit_allow():
 
 
 def test_implicit_deny_when_nothing_matches():
-    decision = evaluate_request(request(), policy(allow(Action="ec2:*", Resource="*")))
+    decision = evaluate_request(
+        confident_request(), policy(allow(Action="ec2:*", Resource="*"))
+    )
     assert decision.verdict is Verdict.DENY
     assert any("implicit deny" in note for note in decision.notes)
 
 
 def test_empty_policy_denies():
-    assert evaluate_request(request(), policy()).verdict is Verdict.DENY
+    assert evaluate_request(confident_request(), policy()).verdict is Verdict.DENY
 
 
 def test_matching_allow_with_a_false_condition_is_a_confident_deny():
     """The key is present and the condition simply does not hold, so no Allow
     applies. That is an ordinary implicit deny, not an unknown."""
     decision = evaluate_request(
-        request(**{"aws:RequestedRegion": "us-east-1"}),
+        confident_request(**{"aws:RequestedRegion": "us-east-1"}),
         policy(
             allow(
-                Action="s3:ListBucket",
-                Resource=BUCKET,
+                Action="iam:GetRole",
+                Resource=TARGET_ROLE,
                 Condition={"StringEquals": {"aws:RequestedRegion": "eu-west-1"}},
             )
         ),
@@ -194,8 +210,8 @@ def test_not_action_excludes_the_named_actions():
 
 def test_not_resource_excludes_the_named_resources():
     excluded = evaluate_request(
-        request(),
-        policy(allow(Action="s3:*", NotResource=BUCKET)),
+        confident_request(),
+        policy(allow(Action="iam:*", NotResource=TARGET_ROLE)),
     )
     assert excluded.verdict is Verdict.DENY
 
@@ -207,7 +223,10 @@ def test_not_resource_excludes_the_named_resources():
 
 
 def test_statement_without_a_resource_element_grants_nothing():
-    assert evaluate_request(request(), policy(allow(Action="s3:*"))).verdict is Verdict.DENY
+    assert (
+        evaluate_request(confident_request(), policy(allow(Action="iam:*"))).verdict
+        is Verdict.DENY
+    )
 
 
 def test_a_single_statement_object_is_accepted():
@@ -245,8 +264,8 @@ def test_unknown_resource_still_denies_when_the_action_is_not_granted():
     """The action is absent from the policy entirely, so the missing resource
     changes nothing."""
     decision = evaluate_mapped_request(
-        request(action="s3:DeleteBucket", resource=None, confidence=Confidence.UNKNOWN_RESOURCE),
-        policy(allow(Action="s3:ListBucket", Resource="*")),
+        request(action="iam:DeleteRole", resource=None, confidence=Confidence.UNKNOWN_RESOURCE),
+        policy(allow(Action="iam:GetRole", Resource="*")),
     )
     assert decision.verdict is Verdict.DENY
 
@@ -288,18 +307,18 @@ def test_condition_operators_that_do_not_hold():
     ]
     for condition, extra in cases:
         decision = evaluate_request(
-            request(**extra),
-            policy(allow(Action="s3:*", Resource="*", Condition=condition)),
+            confident_request(**extra),
+            policy(allow(Action="iam:*", Resource="*", Condition=condition)),
         )
         assert decision.verdict is Verdict.DENY, condition
 
 
 def test_all_operators_in_a_condition_block_must_hold():
     decision = evaluate_request(
-        request(),
+        confident_request(),
         policy(
             allow(
-                Action="s3:*",
+                Action="iam:*",
                 Resource="*",
                 Condition={
                     "StringEquals": {"aws:PrincipalArn": ROLE},
@@ -350,10 +369,12 @@ def test_set_operators_over_a_multi_valued_key():
     assert for_all_holds.verdict is Verdict.ALLOW
 
     for_all_fails = evaluate_request(
-        multi,
+        # iam, so that a failed condition leaves a *confident* deny rather than
+        # the resource-policy unknown that s3 would now produce.
+        replace(multi, action="iam:GetRole", resource_arn=TARGET_ROLE),
         policy(
             allow(
-                Action="s3:*",
+                Action="iam:*",
                 Resource="*",
                 Condition={"ForAllValues:StringEquals": {"aws:CalledVia": "lambda.amazonaws.com"}},
             )
@@ -431,9 +452,9 @@ def test_boundary_intersects_rather_than_grants():
 
 def test_boundary_alone_grants_nothing():
     decision = evaluate_request(
-        request(),
+        confident_request(),
         policy(allow(Action="ec2:*", Resource="*")),
-        policy(allow(Action="s3:*", Resource="*")),
+        policy(allow(Action="iam:*", Resource="*")),
     )
     assert decision.verdict is Verdict.DENY
 
@@ -469,11 +490,11 @@ def test_an_unresolved_boundary_makes_the_whole_result_unresolved():
 
 def test_a_confident_deny_outranks_an_unresolved_boundary():
     decision = evaluate_request(
-        request(action="s3:DeleteBucket"),
-        policy(allow(Action="s3:ListBucket", Resource="*")),
+        confident_request(action="iam:DeleteRole"),
+        policy(allow(Action="iam:GetRole", Resource="*")),
         policy(
             allow(
-                Action="s3:*",
+                Action="iam:*",
                 Resource="*",
                 Condition={"Bool": {"aws:SecureTransport": "true"}},
             )
@@ -498,3 +519,91 @@ def test_statements_without_a_sid_get_a_positional_label():
         policy(allow(Action="s3:ListBucket", Resource=BUCKET)), request()
     )
     assert decision.matched_sid == "statement[0]"
+
+
+# --- implicit deny on resource-policy-capable services (item 1) --------------
+
+
+def test_implicit_deny_resource_policy_service_is_indeterminate():
+    """Identity-only evaluation is blind to resource-based policies.
+
+    AWS's own documentation gives the case: a principal with no identity-based
+    policy at all still has access when the resource's policy grants it. The
+    fixture demonstrated it too -- kms:Decrypt succeeded against a key the
+    identity policy never mentioned. Reporting WOULD DENY there is a confident
+    answer in a case shown to be false.
+    """
+    for action, resource in (
+        ("s3:GetBucketPolicy", "arn:aws:s3:::acme-artifacts-prod"),
+        ("kms:Decrypt", "arn:aws:kms:us-east-1:123456789012:key/abc"),
+        ("lambda:GetFunction", "arn:aws:lambda:us-east-1:123456789012:function:f"),
+    ):
+        decision = evaluate_request(
+            request(action=action, resource=resource),
+            policy(allow(Action="iam:ListRoles", Resource="*")),
+        )
+        assert decision.verdict is Verdict.INDETERMINATE, action
+        assert decision.reason is Reason.RESOURCE_POLICY_UNEVALUABLE, action
+        assert action.split(":")[0] in " ".join(decision.notes), action
+
+
+def test_implicit_deny_non_resource_policy_service_stays_deny():
+    """Nothing outside that set changes. iam, sts and ec2 resources carry no
+    resource-based policy that could grant these calls, so the absence of an
+    Allow remains a confident answer."""
+    for action, resource in (
+        ("iam:GetRole", "arn:aws:iam::123456789012:role/Other"),
+        ("ec2:DescribeInstances", "*"),
+        ("sts:AssumeRole", "arn:aws:iam::123456789012:role/Target"),
+    ):
+        decision = evaluate_request(
+            request(action=action, resource=resource),
+            policy(allow(Action="s3:ListBucket", Resource="*")),
+        )
+        assert decision.verdict is Verdict.DENY, action
+        assert any("implicit deny" in note for note in decision.notes), action
+
+
+def test_explicit_deny_unaffected_by_resource_policy_service():
+    """An explicit Deny in the identity policy wins regardless of service: no
+    resource policy overrides an explicit deny. This is the branch most at risk
+    of being weakened by the change above."""
+    decision = evaluate_request(
+        request(action="s3:ListBucket", resource=BUCKET),
+        policy(
+            allow(Action="s3:*", Resource="*"),
+            deny(Sid="NoListing", Action="s3:ListBucket", Resource=BUCKET),
+        ),
+    )
+    assert decision.verdict is Verdict.DENY
+    assert decision.matched_sid == "NoListing"
+    assert decision.reason is not Reason.RESOURCE_POLICY_UNEVALUABLE
+
+
+def test_boundary_exclusion_unaffected_by_resource_policy_service():
+    """A permission boundary that omits an action denies it outright. A
+    resource policy cannot widen a boundary, so this stays a confident DENY."""
+    decision = evaluate_request(
+        request(action="s3:ListBucket", resource=BUCKET),
+        policy(allow(Action="s3:*", Resource="*")),
+        policy(allow(Action="ec2:*", Resource="*")),
+    )
+    assert decision.verdict is Verdict.DENY
+
+
+def test_matching_allow_with_a_false_condition_stays_deny_on_s3():
+    """The key is present and the condition simply does not hold. That is a
+    statement about the identity policy, not about missing evidence, so it must
+    not be softened into an unknown by the resource-policy rule."""
+    decision = evaluate_request(
+        request(action="s3:ListBucket", resource=BUCKET, **{"aws:RequestedRegion": "us-east-1"}),
+        policy(
+            allow(
+                Action="s3:ListBucket",
+                Resource=BUCKET,
+                Condition={"StringEquals": {"aws:RequestedRegion": "eu-west-1"}},
+            )
+        ),
+    )
+    assert decision.verdict is Verdict.INDETERMINATE
+    assert decision.reason is Reason.RESOURCE_POLICY_UNEVALUABLE

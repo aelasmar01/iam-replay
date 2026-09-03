@@ -13,10 +13,17 @@ from __future__ import annotations
 import json
 from typing import Any
 
-from ..models import Verdict
+from ..models import Reason, Verdict
 from ..replay import EvaluatedGroup, ReplayReport
 
-SCHEMA_VERSION = "1.0.0"
+#: 1.1.0 -- the reason enum gained `resource_policy_unevaluable`. A consumer
+#: switching on reason values will meet a value 1.0.0 could not produce, so the
+#: minor version moves.
+SCHEMA_VERSION = "1.1.0"
+
+#: Every value the `reason` field can take, emitted with the report so a
+#: consumer can validate against the contract rather than infer it from a sample.
+REASON_VALUES = tuple(reason.value for reason in Reason)
 
 
 def _iso(value: Any) -> str | None:
@@ -53,6 +60,7 @@ def to_dict(report: ReplayReport) -> dict[str, Any]:
 
     return {
         "schema_version": SCHEMA_VERSION,
+        "reason_values": list(REASON_VALUES),
         "principal": report.principal,
         "window": {
             "source": window.source_name,

@@ -21,6 +21,35 @@ from .arn import action_matches, is_full_wildcard, resource_matches
 from .conditions import Tri
 
 
+#: Allowlisted services whose resources can carry a resource-based policy that
+#: grants access in the same account, independently of any identity policy.
+#:
+#: AWS's own documentation makes the case plainly: in its worked example, a
+#: principal "has no identity-based policies, but the resource-based policy
+#: allows him full access". Within a single account it does not matter whether
+#: the Allow comes from the identity policy or the resource policy. So for these
+#: services the absence of an Allow in the candidate policy is *not* decisive,
+#: and reporting a confident deny would be a confident wrong answer -- the
+#: fixture demonstrated exactly that with kms:Decrypt against the aws/lambda key.
+#:
+#: Verified against AWS documentation. Deliberately excluded:
+#:
+#:   iam   -- IAM actions (GetRole, ListRoles) are not governed by any resource
+#:            policy. Role *trust* policies are resource-based, but they govern
+#:            sts:AssumeRole, not iam:*.
+#:   sts   -- excluded by instruction. See the note in README limitations: a
+#:            role trust policy is a resource-based policy, and for same-account
+#:            AssumeRole it can grant on its own, so this exclusion is the least
+#:            certain entry in this list.
+#:   ec2   -- no resource-based policy mechanism.
+#:
+#: secretsmanager, sqs and sns are named here for correctness but sit outside
+#: the frozen v1 service allowlist, so no request can currently reach them.
+RESOURCE_POLICY_CAPABLE_SERVICES = frozenset(
+    {"s3", "kms", "lambda", "secretsmanager", "sqs", "sns"}
+)
+
+
 @dataclass(frozen=True)
 class Decision:
     """The result of evaluating one request against one or more policies."""
@@ -161,8 +190,19 @@ def _unevaluable_detail(matches: Iterable[_StatementMatch]) -> tuple[tuple[str, 
     return tuple(dict.fromkeys(keys)), tuple(dict.fromkeys(notes))
 
 
-def evaluate_policy(policy: Mapping[str, Any], request: AuthorizationRequest) -> Decision:
-    """Evaluate one request against a single identity-based policy."""
+def evaluate_policy(
+    policy: Mapping[str, Any],
+    request: AuthorizationRequest,
+    *,
+    resource_policy_rule: bool = True,
+) -> Decision:
+    """Evaluate one request against a single identity-based policy.
+
+    ``resource_policy_rule`` softens an implicit deny to INDETERMINATE for
+    services whose resources can carry their own policy. It is switched off when
+    evaluating a permission boundary: a boundary that omits an action denies it,
+    and a resource policy cannot widen a boundary.
+    """
     denies = _match_statements(policy, request, "Deny")
     allows = _match_statements(policy, request, "Allow")
 
@@ -198,9 +238,24 @@ def evaluate_policy(policy: Mapping[str, Any], request: AuthorizationRequest) ->
             )
         return Decision(Verdict.ALLOW, matched_sid=applying_allows[0].sid)
 
-    # 3. No Allow applies. If none could possibly apply, this is an implicit
-    #    deny -- confident, because the absence of an Allow needs no context.
+    # 3. No Allow applies. The absence of an Allow needs no context, so this is
+    #    confident -- but only for services where the identity policy is the
+    #    whole story. Where a resource-based policy could grant the call on its
+    #    own, this evaluator simply cannot see the deciding document.
     if not unevaluable_allows:
+        service = request.service
+        if resource_policy_rule and service in RESOURCE_POLICY_CAPABLE_SERVICES:
+            return Decision(
+                Verdict.INDETERMINATE,
+                reason=Reason.RESOURCE_POLICY_UNEVALUABLE,
+                matched_sid=None,
+                notes=(
+                    "no Allow in the candidate policy matches this action and "
+                    f"resource, but {service} resources can carry a resource-based "
+                    "policy that grants this call on its own. This tool evaluates "
+                    "identity policies only, so it cannot see that document.",
+                ),
+            )
         return Decision(
             Verdict.DENY,
             matched_sid=None,
@@ -247,7 +302,9 @@ def evaluate_request(
     if boundary_policy is None:
         return identity
 
-    boundary = evaluate_policy(boundary_policy, request)
+    # A boundary that omits an action denies it: a resource policy cannot widen
+    # a permission boundary, so the softening rule does not apply here.
+    boundary = evaluate_policy(boundary_policy, request, resource_policy_rule=False)
 
     # A confident deny on either side settles it: the intersection is empty.
     if identity.is_deny:

@@ -243,3 +243,34 @@ def test_a_run_leaning_on_untested_mappings_says_so(runner, tmp_path, monkeypatc
 
     validation._manifest.cache_clear()
     validation.validated_pairs.cache_clear()
+
+
+def test_the_json_schema_declares_every_reason_value(runner):
+    """A consumer switching on `reason` should be able to validate against the
+    contract rather than infer it from whatever a sample run happened to emit."""
+    from iam_replay.models import Reason
+
+    document = json.loads(run(runner, "--format", "json").output)
+
+    assert document["schema_version"] == "1.1.0"
+    assert set(document["reason_values"]) == {r.value for r in Reason}
+    assert "resource_policy_unevaluable" in document["reason_values"]
+
+
+def test_gates_under_the_resource_policy_distribution(runner, tmp_path):
+    """Calls that used to be a confident DENY on s3 are now INDETERMINATE, so
+    --fail-on-deny alone would let them through. --fail-on-indeterminate is what
+    catches them, and both must still work."""
+    policy = write_policy(tmp_path, {"Statement": [
+        {"Effect": "Allow", "Action": "iam:ListRoles", "Resource": "*"}
+    ]})
+
+    output = run(runner, "--format", "json", policy=policy).output
+    document = json.loads(output)
+    reasons = {entry["reason"] for entry in document["indeterminate"]}
+    assert "resource_policy_unevaluable" in reasons
+
+    # s3/kms/lambda calls land in INDETERMINATE; iam/ec2 calls still in DENY.
+    assert document["summary"]["DENY"] > 0
+    assert run(runner, "--fail-on-deny", policy=policy).exit_code == EXIT_GATE_TRIPPED
+    assert run(runner, "--fail-on-indeterminate", policy=policy).exit_code == EXIT_GATE_TRIPPED
