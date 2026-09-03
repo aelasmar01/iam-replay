@@ -1,0 +1,31 @@
+name: ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e ".[dev]"
+
+      # No AWS credentials are configured for this job, by design. The
+      # ground-truth oracle (tests/test_ground_truth.py) replays a committed
+      # snapshot of real events captured by scripts/capture_live_events.py,
+      # so the suite is offline and deterministic.
+      - name: Test
+        run: pytest -v
