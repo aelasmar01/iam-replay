@@ -15,6 +15,9 @@ htmlcov/
 .terraform.lock.hcl
 *.tfstate
 *.tfstate.*
+# Saved plan files: binary, and they embed the account ID and resource names
+tfplan
+*.tfplan
 *.tfvars
 !example.tfvars
 crash.log
