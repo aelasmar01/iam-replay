@@ -52,6 +52,13 @@ def baseline_policy() -> dict:
 
 
 @pytest.fixture(scope="module")
+def mapped_events():
+    """Every captured event, mapped -- including the ones that produced no request."""
+    mapper = Mapper()
+    return [mapper.map_event(record) for record in FileEventSource(EVENTS_FILE).events()]
+
+
+@pytest.fixture(scope="module")
 def replayed(baseline_policy):
     """Map and evaluate every captured event once."""
     mapper = Mapper()
@@ -148,3 +155,41 @@ def test_indeterminates_name_the_key_that_defeated_them(replayed):
             Reason.NEVER_AVAILABLE_CONDITION_KEY,
         ):
             assert decision.unevaluable_keys
+
+
+def test_no_allowlisted_service_event_is_left_unmapped(mapped_events):
+    """The oracle alone cannot catch a missing mapping.
+
+    An unmapped event produces no request, so it is silently skipped rather
+    than denied -- it passes the oracle by not being evaluated at all. That is
+    how a wrong event name hides: CloudTrail records Lambda calls under
+    API-versioned names (GetFunction20150331v2), and a mapping written for
+    "GetFunction" would look clean while covering nothing.
+
+    Every event the fixture workload produces in an allowlisted service must
+    therefore be mapped, with no silent skips.
+    """
+    from iam_replay.normalize.mapper import SERVICE_ALLOWLIST, service_from_event_source
+
+    unmapped = sorted(
+        {
+            f"{mapped.meta.event_source} {mapped.meta.event_name}"
+            for mapped in mapped_events
+            if mapped.reason is Reason.UNMAPPED_EVENT
+            and service_from_event_source(mapped.meta.event_source) in SERVICE_ALLOWLIST
+        }
+    )
+    assert not unmapped, f"allowlisted-service events with no mapping: {unmapped}"
+
+
+def test_the_workload_exercises_every_allowlisted_service(mapped_events):
+    """Guards the instrument: if the workload stopped calling a service, that
+    service's mappings would no longer be covered by the oracle at all, and the
+    number in the README would quietly mean less than it says."""
+    from iam_replay.normalize.mapper import SERVICE_ALLOWLIST, service_from_event_source
+
+    exercised = {
+        service_from_event_source(mapped.meta.event_source) for mapped in mapped_events
+    }
+    missing = SERVICE_ALLOWLIST - exercised
+    assert not missing, f"workload no longer exercises: {sorted(missing)}"

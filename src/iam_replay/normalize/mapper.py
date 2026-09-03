@@ -55,6 +55,12 @@ class _Permission:
     action: str
     resource: str | None
     resource_type: str | None = None
+    #: True when the API accepts either a bare name or a full ARN in the same
+    #: request field (lambda functionName, kms keyId). When the event carries an
+    #: ARN, it is used verbatim instead of being substituted into the template,
+    #: which would otherwise produce a nested ARN like
+    #: "arn:aws:lambda:...:function:arn:aws:lambda:...".
+    resource_may_be_arn: bool = False
     note: str | None = None
 
 
@@ -91,14 +97,35 @@ def partition_for_region(region: str) -> str:
 
 
 def _dotted_get(event: dict[str, Any], path: str) -> Any:
-    """Read ``requestParameters.bucketName`` out of an event. None if absent."""
+    """Read ``requestParameters.bucketName`` out of an event. None if absent.
+
+    A numeric segment indexes into a list, so nested request shapes such as
+    ``requestParameters.instancesSet.items.0.imageId`` are reachable.
+    """
     current: Any = event
     for part in path.split("."):
+        if isinstance(current, list):
+            if not part.isdigit() or int(part) >= len(current):
+                return None
+            current = current[int(part)]
+            continue
         if not isinstance(current, dict) or part not in current:
             return None
         current = current[part]
     return current
 
+
+def _verbatim_arn(template: str, event: dict[str, Any]) -> str | None:
+    """Return the field's value when it is already a full ARN.
+
+    Only consulted for mappings that set ``resource_may_be_arn``. Substituting
+    an ARN into an ARN template builds a resource that matches nothing.
+    """
+    for field_path in _TEMPLATE_FIELD.findall(template):
+        value = _dotted_get(event, field_path)
+        if isinstance(value, str) and value.startswith("arn:"):
+            return value
+    return None
 
 def _load_mappings(directory: Path) -> dict[str, dict[str, _EventMapping]]:
     mappings: dict[str, dict[str, _EventMapping]] = {}
@@ -140,6 +167,7 @@ def _parse_permission(entry: Any, path: Path, event_name: str) -> _Permission:
         action=entry["action"],
         resource=entry.get("resource"),
         resource_type=entry.get("resource_type"),
+        resource_may_be_arn=bool(entry.get("resource_may_be_arn")),
         note=entry.get("note"),
     )
 
@@ -263,7 +291,10 @@ class Mapper:
 
         resource_arn = _resource_from_event_array(event, permission.resource_type)
         if resource_arn is None and permission.resource is not None:
-            resource_arn, missing = _render_template(permission.resource, event)
+            if permission.resource_may_be_arn:
+                resource_arn = _verbatim_arn(permission.resource, event)
+            if resource_arn is None:
+                resource_arn, missing = _render_template(permission.resource, event)
             if missing:
                 notes.append(
                     "resource ARN not built: event is missing "

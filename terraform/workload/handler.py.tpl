@@ -13,14 +13,25 @@ real instance would, for none of the money.
 """
 
 import json
-import os
 
 import boto3
 
-DATA_BUCKET = os.environ["DATA_BUCKET"]
-ROLE_NAME = os.environ["ROLE_NAME"]
-FUNCTION_NAME = os.environ["FUNCTION_NAME"]
-KMS_KEY_ID = os.environ["KMS_KEY_ID"]
+# Baked in by Terraform rather than passed as environment variables. Lambda
+# encrypts env vars at rest and decrypts them at cold start under the execution
+# role's own credentials, which emits a kms:Decrypt event against the
+# AWS-managed aws/lambda key. That call is authorized by the key's
+# *resource-based* key policy, not by the role's identity policy -- so the
+# ground-truth oracle would see a SUCCEEDED event that the tight baseline does
+# not allow, and report a DENY that is not a mapper bug.
+#
+# Rather than widen the baseline to hide it, or add the exception list the spec
+# forbids, the fixture removes the confound. The underlying limitation is real
+# and belongs in the README: this tool evaluates identity policies only, so any
+# call authorized by a resource-based policy will look like a false deny.
+DATA_BUCKET = "${data_bucket}"
+ROLE_NAME = "${role_name}"
+FUNCTION_NAME = "${function_name}"
+KMS_KEY_ID = "${kms_key_id}"
 
 
 def _calls():

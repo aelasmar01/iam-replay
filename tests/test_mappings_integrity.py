@@ -41,6 +41,14 @@ def test_service_key_matches_the_filename_and_the_allowlist(path):
     assert document["service"] in SERVICE_ALLOWLIST
 
 
+#: The one action a mapping may declare outside its own service. iam:PassRole
+#: is never logged as an event of its own, so events that require it (
+#: lambda:CreateFunction, ec2:RunInstances with an instance profile) assert it
+#: through an expansion. Spec §6 calls for exactly this and no more: no general
+#: PassRole detection is attempted.
+CROSS_SERVICE_ACTIONS = {"iam:PassRole"}
+
+
 def test_actions_are_prefixed_with_their_own_service():
     """An action under the wrong service prefix silently never matches a policy
     written for that service, producing a false DENY."""
@@ -48,11 +56,24 @@ def test_actions_are_prefixed_with_their_own_service():
         service = path.stem
         action = entry["action"]
         assert ":" in action, f"{path.name}:{event_name} action {action!r} has no prefix"
-        # sts:AssumeRole is authorized by an identity policy on the *caller*, so
-        # its prefix is still sts. No cross-service prefixes exist in v1.
+        if action in CROSS_SERVICE_ACTIONS:
+            continue
         assert action.split(":", 1)[0] == service, (
             f"{path.name}:{event_name} declares {action!r} under service {service!r}"
         )
+
+
+def test_cross_service_actions_only_appear_inside_expansions():
+    """iam:PassRole is an assertion by the mapping, never something the event
+    states, so it must always carry the INFERRED marking an expansion gives it."""
+    for path, document in documents():
+        for event_name, spec in (document.get("events") or {}).items():
+            action = spec.get("action")
+            if action in CROSS_SERVICE_ACTIONS:
+                raise AssertionError(
+                    f"{path.name}:{event_name} declares {action} directly; it must "
+                    "sit inside expands_to so every entry is marked INFERRED"
+                )
 
 
 def test_no_resource_template_is_a_bare_wildcard_with_placeholders():

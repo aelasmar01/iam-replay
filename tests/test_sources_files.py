@@ -13,9 +13,18 @@ from iam_replay.sources.files import FileEventSource
 from .conftest import FIXTURES
 
 
+HAND_BUILT = ["s3_events.json", "iam_events.json", "sts_events.json", "edge_cases.json"]
+
+
 def test_reads_every_record_in_a_directory_tree():
+    """Recurses, so the captured live/ snapshot is included alongside the
+    hand-built files. Counted as a floor rather than an exact number: the live
+    snapshot grows whenever it is regenerated."""
     events = list(FileEventSource(FIXTURES).events())
-    assert len(events) == 26
+    hand_built = sum(len(list(FileEventSource(FIXTURES / name).events())) for name in HAND_BUILT)
+
+    assert hand_built == 26
+    assert len(events) >= hand_built
     assert all("eventName" in event for event in events)
 
 

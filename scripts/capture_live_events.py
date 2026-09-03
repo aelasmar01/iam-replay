@@ -35,18 +35,32 @@ import boto3
 #: the oracle's policy comparison stays meaningful.
 PLACEHOLDER_ACCOUNT = "123456789012"
 
-_ACCOUNT_ID = re.compile(r"\b\d{12}\b")
+#: Matches a 12-digit run only where an account ID actually lives -- inside an
+#: ARN's account field, or an accountId/recipientAccountId value. A bare
+#: \b\d{12}\b also matches segments of UUIDs (event IDs contain a 12-hex-digit
+#: tail, which is sometimes all decimal), producing false leak warnings.
+_ACCOUNT_ID = re.compile(
+    r"arn:[a-z0-9-]*:[^:\"]*:[^:\"]*:(\d{12}):"
+    r"|\"(?:recipientAccountId|accountId)\"\s*:\s*\"(\d{12})\""
+)
 
 
-def lookup_events(days: int, region: str | None) -> Iterator[dict[str, Any]]:
+def lookup_events(
+    days: int, region: str | None, since: datetime | None = None
+) -> Iterator[dict[str, Any]]:
     """Page through cloudtrail:LookupEvents, unwrapping to plain records.
 
     LookupEvents needs no trail: CloudTrail Event history is on by default for
     management events with 90 days of retention.
+
+    ``since`` overrides the day count. It exists because the fixture workload's
+    history is not immutable: changing the workload leaves older events in the
+    window that no longer reflect what it does, and those would be replayed
+    against a baseline written for the current workload.
     """
     client = boto3.client("cloudtrail", region_name=region) if region else boto3.client("cloudtrail")
     end = datetime.now(timezone.utc)
-    start = end - timedelta(days=days)
+    start = since if since is not None else end - timedelta(days=days)
 
     paginator = client.get_paginator("lookup_events")
     for page in paginator.paginate(StartTime=start, EndTime=end):
@@ -82,6 +96,14 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--principal", required=True, help="Role ARN to capture events for")
     parser.add_argument("--days", type=int, default=1)
+    parser.add_argument(
+        "--since",
+        default=None,
+        help=(
+            "ISO-8601 start time, overriding --days. Use after changing the "
+            "workload so stale events are not captured alongside current ones."
+        ),
+    )
     parser.add_argument("--region", default=None)
     parser.add_argument("--out", default="tests/fixtures/cloudtrail/live")
     parser.add_argument(
@@ -100,9 +122,15 @@ def main() -> int:
         print(f"could not read an account ID out of {wanted!r}", file=sys.stderr)
         return 2
 
+    since = None
+    if args.since:
+        since = datetime.fromisoformat(args.since.replace("Z", "+00:00"))
+        if since.tzinfo is None:
+            since = since.replace(tzinfo=timezone.utc)
+
     captured: list[dict[str, Any]] = []
     scanned = 0
-    for record in lookup_events(args.days, args.region):
+    for record in lookup_events(args.days, args.region, since):
         scanned += 1
         if not matches_principal(record, wanted):
             continue
@@ -130,6 +158,7 @@ def main() -> int:
         "captured_at": datetime.now(timezone.utc).isoformat(),
         "principal": wanted.replace(real_account, PLACEHOLDER_ACCOUNT),
         "requested_days": args.days,
+        "since": args.since,
         "events_scanned": scanned,
         "events_captured": len(captured),
         "account_id_replaced_with": PLACEHOLDER_ACCOUNT,
@@ -140,8 +169,13 @@ def main() -> int:
     }
     (out_dir / "manifest.json").write_text(json.dumps(manifest, indent=2) + "\n")
 
-    remaining = sorted(_ACCOUNT_ID.findall(json.dumps(captured)) )
-    leaked = {a for a in remaining if a != PLACEHOLDER_ACCOUNT}
+    found = {
+        account
+        for match in _ACCOUNT_ID.finditer(json.dumps(captured))
+        for account in match.groups()
+        if account
+    }
+    leaked = found - {PLACEHOLDER_ACCOUNT}
     if leaked:
         print(f"warning: other 12-digit IDs remain in the fixture: {sorted(leaked)}", file=sys.stderr)
 

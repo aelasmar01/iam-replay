@@ -157,10 +157,24 @@ resource "aws_iam_role_policy" "tight_baseline" {
 
 # --- the workload ------------------------------------------------------------
 
+# The handler is rendered from a template rather than given environment
+# variables. See the comment at the top of workload/handler.py.tpl: Lambda
+# decrypts env vars at cold start under the execution role's credentials,
+# producing a kms:Decrypt event authorized by a resource-based key policy that
+# the ground-truth oracle would necessarily read as a false deny.
 data "archive_file" "workload" {
   type        = "zip"
-  source_file = "${path.module}/workload/handler.py"
   output_path = "${path.module}/.terraform/workload.zip"
+
+  source {
+    filename = "handler.py"
+    content = templatefile("${path.module}/workload/handler.py.tpl", {
+      data_bucket   = local.data_bucket
+      role_name     = local.role_name
+      function_name = local.function_name
+      kms_key_id    = aws_kms_key.fixture.key_id
+    })
+  }
 }
 
 resource "aws_cloudwatch_log_group" "workload" {
@@ -177,14 +191,7 @@ resource "aws_lambda_function" "workload" {
   filename         = data.archive_file.workload.output_path
   source_code_hash = data.archive_file.workload.output_base64sha256
 
-  environment {
-    variables = {
-      DATA_BUCKET   = aws_s3_bucket.data.id
-      ROLE_NAME     = local.role_name
-      FUNCTION_NAME = local.function_name
-      KMS_KEY_ID    = aws_kms_key.fixture.key_id
-    }
-  }
+  # Deliberately no environment block -- see archive_file.workload above.
 
   depends_on = [aws_cloudwatch_log_group.workload]
 }

@@ -1,0 +1,128 @@
+# lambda event -> IAM action mappings.
+#
+# CloudTrail records Lambda events under *API-versioned* names:
+# GetFunction20150331v2, ListFunctions20150331, CreateFunction20150331. This is
+# not a detail you can guess -- these names were read off real events from the
+# fixture account. Both the versioned and unversioned spellings are mapped
+# explicitly, because which one appears depends on the API version the caller's
+# SDK negotiated, and an unmapped event is silently skipped rather than
+# reported.
+#
+# functionName may arrive as a bare name or as a full ARN, so every
+# function-scoped entry sets resource_may_be_arn: substituting an ARN into an
+# ARN template would build a resource that matches nothing.
+service: lambda
+
+events:
+  # --- reads ---
+  GetFunction20150331v2: &get_function
+    action: lambda:GetFunction
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  GetFunction20150331: *get_function
+  GetFunction: *get_function
+
+  ListFunctions20150331: &list_functions
+    action: lambda:ListFunctions
+    resource: "*"
+  ListFunctions: *list_functions
+
+  GetFunctionConfiguration20150331v2: &get_function_configuration
+    action: lambda:GetFunctionConfiguration
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  GetFunctionConfiguration: *get_function_configuration
+
+  GetPolicy20150331v2: &get_lambda_policy
+    action: lambda:GetPolicy
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  GetPolicy: *get_lambda_policy
+
+  ListVersionsByFunction20150331: &list_versions
+    action: lambda:ListVersionsByFunction
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  ListVersionsByFunction: *list_versions
+
+  GetFunctionCodeSigningConfig:
+    action: lambda:GetFunctionCodeSigningConfig
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+
+  ListTags20170331:
+    action: lambda:ListTags
+    resource_may_be_arn: true
+    resource: "{requestParameters.resource}"
+
+  # --- writes ---
+  #
+  # CreateFunction is a multi-permission event: it also requires iam:PassRole on
+  # the execution role. PassRole never appears as an event of its own, so the
+  # expansion asserts it and every entry is marked INFERRED. This is the only
+  # PassRole inference in v1 -- no attempt is made to detect PassRole generally.
+  CreateFunction20150331: &create_function
+    expands_to:
+      - action: lambda:CreateFunction
+        resource_type: AWS::Lambda::Function
+        resource_may_be_arn: true
+        resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+      - action: iam:PassRole
+        resource_may_be_arn: true
+        resource: "{requestParameters.role}"
+        note: >-
+          iam:PassRole is required to attach the execution role but is never
+          logged as its own event; this entry is asserted by the mapping.
+  CreateFunction: *create_function
+
+  UpdateFunctionCode20150331v2: &update_code
+    action: lambda:UpdateFunctionCode
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  UpdateFunctionCode: *update_code
+
+  UpdateFunctionConfiguration20150331v2: &update_config
+    action: lambda:UpdateFunctionConfiguration
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  UpdateFunctionConfiguration: *update_config
+
+  AddPermission20150331v2: &add_permission
+    action: lambda:AddPermission
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  AddPermission: *add_permission
+
+  RemovePermission20150331v2: &remove_permission
+    action: lambda:RemovePermission
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  RemovePermission: *remove_permission
+
+  DeleteFunction20150331: &delete_function
+    action: lambda:DeleteFunction
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"
+  DeleteFunction: *delete_function
+
+  TagResource20170331v2:
+    action: lambda:TagResource
+    resource_may_be_arn: true
+    resource: "{requestParameters.resource}"
+
+  # --- data event; absent from most trails ---
+  Invoke:
+    action: lambda:InvokeFunction
+    resource_type: AWS::Lambda::Function
+    resource_may_be_arn: true
+    resource: "arn:{partition}:lambda:{region}:{account}:function:{requestParameters.functionName}"

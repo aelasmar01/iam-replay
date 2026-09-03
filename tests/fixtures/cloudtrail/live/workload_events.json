@@ -1,0 +1,3140 @@
+{
+  "Records": [
+    {
+      "apiVersion": "20140328",
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "4020ed89-7153-48a4-bf4f-5cd2d88b8265",
+      "eventName": "CreateLogStream",
+      "eventSource": "logs.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:21Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": false,
+      "recipientAccountId": "123456789012",
+      "requestID": "c947737b-4890-432e-bc84-5dd2fbddc04c",
+      "requestParameters": {
+        "logGroupName": "/aws/lambda/iam-replay-fixture-workload",
+        "logStreamName": "2026/09/03/[$LATEST]45c33de93c46478bbe7b397b218d0a9e"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "logs.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "awslambda-worker/1.0 rusoto/0.48.0 rust/1.97.1 linux",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 611,
+        "endTime": 1788401122508,
+        "httpStatusCode": 200,
+        "startTime": 1788401122486,
+        "turnAroundTime": 19,
+        "x-amz-id-2": "QdJCArd2nOJIXCWkmL+U0wg8rifCtBMH9vKrnn3BbPlkJkJj+iMvPkIqVlkck0lJ1JQ1H2Xypa0="
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "04930805-6155-476a-9794-3b43ba7e876f",
+      "eventName": "ListBuckets",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:22Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "DXW0F532VZVKBG9Y",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/g,D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 162,
+        "endTime": 1788401122833,
+        "httpStatusCode": 200,
+        "startTime": 1788401122829,
+        "x-amz-id-2": "AZg+PKvq0syMPvQiePbKEEMbNkcl5I8yH82fSlLUP814lbdi1KQMvE3fiBe9imuMhwaRLPsMe7I="
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "31011471-5c30-4cda-b3b1-6732f8e1c02f",
+      "eventName": "GetBucketVersioning",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:22Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "DXW2BVD86399CQ4Z",
+      "requestParameters": {
+        "Host": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "versioning": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/g,D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 108,
+        "endTime": 1788401122808,
+        "httpStatusCode": 200,
+        "startTime": 1788401122801,
+        "x-amz-id-2": "gnVpJBi6ENwR6Zze0t4sjQAhuOu+LTnlDvDZ4fukzEfIQ7oAv0fjEE0Cc2M744SMMU3MKIR2fHU="
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "799e77b7-60f4-4270-8819-b8f7510ff654",
+      "eventName": "GetBucketLocation",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:22Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "DXW90APFDZB4Z4DG",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "location": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/g,D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "48b1b3f3-b5b5-4998-9f08-394f28dc7201",
+      "eventName": "DescribeVpcs",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "a38ae1de-6e1d-4c08-bf21-c3d28f64beb2",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "vpcSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "4fcc4eae-469b-4a48-919c-f4aeb732c6bc",
+      "eventName": "GetRole",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "fb8c4045-542a-4f59-86b3-999255da95f6",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "71bf434c-9788-49c7-9a91-7de31f5ee667",
+      "eventName": "ListRoles",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "51fabeca-49c1-4e6d-b5b9-af56b46fd52e",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "ExtendedRequestId": "MTp1cy1lYXN0LTE6UzoxNzg4NDAxMTIzNDI1OlI6N0NpdEY4UUk=",
+        "RequestDetails": {
+          "awsServingRegion": "us-east-1",
+          "endpointType": "regional"
+        }
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "7b1556bb-902a-450d-85b3-4272de76434a",
+      "eventName": "GetCallerIdentity",
+      "eventSource": "sts.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "1023c061-d217-4590-8729-32da78a9d156",
+      "requestParameters": null,
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "sts.us-east-1.amazonaws.com",
+        "keyExchange": "secp256r1",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "c13a476f-1dfa-4f34-96ba-9efd6c82f18d",
+      "eventName": "ListAttachedRolePolicies",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "1c335e90-2df4-4ca1-b8d0-876282288d93",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "d5c3eb09-ec33-424f-8dab-d949c4ad9342",
+      "eventName": "DescribeInstances",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "68d84169-c002-4197-8b9e-5b26e5257ffb",
+      "requestParameters": {
+        "filterSet": {},
+        "instancesSet": {},
+        "maxResults": 5
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "f20b351d-dc10-42ef-b3d8-5ff3befeb0b8",
+      "eventName": "DescribeSecurityGroups",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:23Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "659e5c69-d8b1-4acc-8605-4b116052c564",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "securityGroupIdSet": {},
+        "securityGroupSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "06da4669-ce13-46ba-b462-93a24650a847",
+      "eventName": "DescribeKey",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:24Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "c233bd76-4451-423a-bbaf-9a4e51bb9788",
+      "requestParameters": {
+        "keyId": "d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b",
+          "accountId": "123456789012",
+          "type": "AWS::KMS::Key"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "81c390ba-422e-4176-9de2-5756dc5d1362",
+      "eventName": "GetFunction20150331v2",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:24Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "1f52c403-0d43-44c6-9086-33e6ac751a2b",
+      "requestParameters": {
+        "functionName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "88b34e34-e403-4d1d-8f72-428147ccbd32",
+      "eventName": "ListFunctions20150331",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:24Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "5ab79e9b-3d27-4453-b289-1e335a48fc44",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "d44c05af-45fb-4e6b-a95b-111ff4936f38",
+      "eventName": "ListAliases",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:24Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "91de906a-6cd6-4eb5-a113-cdfb6f0e43d4",
+      "requestParameters": {
+        "limit": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 611,
+        "endTime": 1788401126828,
+        "httpStatusCode": 200,
+        "startTime": 1788401126805,
+        "turnAroundTime": 21,
+        "x-amz-id-2": "V57sFbyIlghcfN6QxlGscDFcSHhgI1W/SHY32CzBpBdTFz14V53Vhzm8GtunDzo+K1QEjssJDotpie8+OBTBGnWNBlT+6Eop"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "9010be16-1c74-4c6e-9031-8586148df5c3",
+      "eventName": "ListBuckets",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:26Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "93ND0888M30C8Y7C",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "088cde8f-546c-413c-a4b1-771440882827",
+      "eventName": "DescribeVpcs",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "f874d276-f0ba-438c-8d4a-2723a3930d49",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "vpcSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 108,
+        "endTime": 1788401127074,
+        "httpStatusCode": 200,
+        "startTime": 1788401127067,
+        "x-amz-id-2": "0wjWikl3Dpy/PyPtA7gZbM3Qyw329Dp81KeuYTgoELCqGO/NramfaVdhxGS36IAkQEdNrdtDyLMkTSBjKYjFVNr6ff8nTCBC"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "4e5c37ba-2b2f-48fb-aafe-fc7740020656",
+      "eventName": "GetBucketLocation",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "XK9GYCXNSEEEF54F",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "location": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "62cc9789-2868-4053-9d64-f0b06fd1c953",
+      "eventName": "DescribeInstances",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "0df340d0-d567-41c9-9dd2-f9a1fcec0967",
+      "requestParameters": {
+        "filterSet": {},
+        "instancesSet": {},
+        "maxResults": 5
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "637bbaf3-4c68-46d9-b46a-4869cf9ec755",
+      "eventName": "GetRole",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "f5295ced-b1bc-4564-bc32-21fac4991750",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "790cfacf-1f5a-4f55-9670-326efa1dfdc1",
+      "eventName": "ListRoles",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "82b5baf2-e02b-4784-b5a6-627339997b6e",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "ExtendedRequestId": "MTp1cy1lYXN0LTE6UzoxNzg4NDAxMTI3NjA3OlI6NTY2d0JMd0c=",
+        "RequestDetails": {
+          "awsServingRegion": "us-east-1",
+          "endpointType": "regional"
+        }
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "ab5b400d-6100-4687-abac-c40546e21009",
+      "eventName": "GetCallerIdentity",
+      "eventSource": "sts.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "3f6441aa-80bf-4023-9a3f-a81c6c3cd09a",
+      "requestParameters": null,
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "sts.us-east-1.amazonaws.com",
+        "keyExchange": "secp256r1",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "bc66554f-f97c-484a-ae45-a2c8b7ae46c6",
+      "eventName": "DescribeSecurityGroups",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "833008e6-7552-4a55-9e93-20c61059ef49",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "securityGroupIdSet": {},
+        "securityGroupSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 162,
+        "endTime": 1788401127112,
+        "httpStatusCode": 200,
+        "startTime": 1788401127108,
+        "x-amz-id-2": "/TrI9c6za/MgeVqLVmWRJj6w/6pViTBxyEumYL3Zs4knlbiL7av9aMJ1XNROj8NCS1ZjvqPZK6yPIjVsMBCB1PgaYM/8w+KG"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "e3d5ef11-338b-4a4f-b17a-34fd177260a5",
+      "eventName": "GetBucketVersioning",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "XK9HE6RF7MCRQPY9",
+      "requestParameters": {
+        "Host": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "versioning": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "f2e8b5a9-aac4-47f5-bc9e-af1f257c0f45",
+      "eventName": "ListAttachedRolePolicies",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:27Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "9490810d-9708-4a6a-9d05-0857b0cf6847",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "2023ec20-09ca-49ad-8a4e-494d26126eab",
+      "eventName": "GetFunction20150331v2",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:28Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "c6a26b3f-6972-4d8c-8f36-4ff08e2652fd",
+      "requestParameters": {
+        "functionName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "8def731d-1006-4cc6-8c79-10879205270b",
+      "eventName": "ListFunctions20150331",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:28Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "60a29e8e-05ef-4275-9f1c-a7620c65a248",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "cc255802-58da-49da-b84e-f01bfcdf9131",
+      "eventName": "ListAliases",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:28Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "c69dd1ab-06c5-4ea5-a0ca-52b7afaa9a5a",
+      "requestParameters": {
+        "limit": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "ec0f938f-fbf6-4f2f-bed6-d23a4a6374a5",
+      "eventName": "DescribeKey",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:28Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "773d5b90-7d40-4b07-841b-b4921d3556ce",
+      "requestParameters": {
+        "keyId": "d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b",
+          "accountId": "123456789012",
+          "type": "AWS::KMS::Key"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 611,
+        "endTime": 1788401130550,
+        "httpStatusCode": 200,
+        "startTime": 1788401130526,
+        "turnAroundTime": 21,
+        "x-amz-id-2": "4TaeZIojOwYGUrUG3Yytb08ilhHYD0fpVPTq1fKw7RgZjMu8hAsT3FZIh19/zrZ6Ikh7CKsafpF3cljU4Iu1MkHmIrzx0iui"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "4ab287d5-72cd-49b7-b8bf-a6afddefd789",
+      "eventName": "ListBuckets",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:30Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "DTHNVMSY0YYKKTVR",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 162,
+        "endTime": 1788401130895,
+        "httpStatusCode": 200,
+        "startTime": 1788401130848,
+        "x-amz-id-2": "KoCa0U3Ens+/+tSshNDexbUVQSPVHo2jiDHDKEaWqqVOa3mYQPf/PycPCk2xwihIikwtq013ZRs="
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "b8903c74-6281-4596-a19d-24d0c97ad36d",
+      "eventName": "GetBucketVersioning",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:30Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "DTHS4GAR19507460",
+      "requestParameters": {
+        "Host": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "versioning": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 108,
+        "endTime": 1788401130814,
+        "httpStatusCode": 200,
+        "startTime": 1788401130808,
+        "x-amz-id-2": "E3/QBdMpqC97JMtlDCvm2NeNefsUhVf2RJYM9TZcT+dQMWXNO8RLaL72KW6OB6BUJDq5j7L+u/AdmByDu3G7RabpIkLbeKf1"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "efffcded-95ad-4598-a5d4-ec56bfe7df5c",
+      "eventName": "GetBucketLocation",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:30Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "DTHZYTZYMWG18BWR",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "location": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "52bfe31f-9568-4e68-9049-c3b2d216647f",
+      "eventName": "GetFunction20150331v2",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "c94295c6-58a1-4800-a9e9-8f9f60a5ff52",
+      "requestParameters": {
+        "functionName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "5b9a759e-d1ac-4985-a276-53355c6c49ca",
+      "eventName": "GetRole",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "c1a8757a-f16d-41f6-9342-b357cae8f3ca",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "ExtendedRequestId": "MTp1cy1lYXN0LTE6UzoxNzg4NDAxMTMxMzY1OlI6S2FDQ2FHbWw=",
+        "RequestDetails": {
+          "awsServingRegion": "us-east-1",
+          "endpointType": "regional"
+        }
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "7e50e5a5-d317-4b70-8a38-7a0367095d7a",
+      "eventName": "GetCallerIdentity",
+      "eventSource": "sts.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "ac9db189-ed39-4bb1-8771-7ac5293b443d",
+      "requestParameters": null,
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "sts.us-east-1.amazonaws.com",
+        "keyExchange": "secp256r1",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "888efa6e-0c42-4d55-a528-ef2ed3981175",
+      "eventName": "ListAttachedRolePolicies",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "fef0c78e-f721-4096-94d8-3eb55162eb4f",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "8e080ad6-5ba4-4d7a-9b3c-91e34cc391b5",
+      "eventName": "DescribeInstances",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "ebf3d50c-540b-46e2-bd39-a0d69d3172a8",
+      "requestParameters": {
+        "filterSet": {},
+        "instancesSet": {},
+        "maxResults": 5
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "9525f7ca-b5ec-4d5d-a5f5-4c36ef9faf70",
+      "eventName": "DescribeSecurityGroups",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "9acf5187-4055-4a92-b151-34258925520a",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "securityGroupIdSet": {},
+        "securityGroupSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "955e9d89-bf06-47c5-9c95-268865f25d84",
+      "eventName": "DescribeVpcs",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "97f8bb39-4026-4db1-9b78-2b07b9a18766",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "vpcSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "cdca91e3-eaad-4110-b2c5-36f6fba50ec8",
+      "eventName": "ListRoles",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:31Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "f8c085b1-6b47-4ad4-806e-38487dcb1ab1",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "24f75a33-1372-4bc6-a72d-e0d92bc0732f",
+      "eventName": "ListFunctions20150331",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:32Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "23b77784-c689-4ca4-bb7e-43b653fca583",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "3ecd1d0b-b730-43b5-a47b-eda615e3a19b",
+      "eventName": "DescribeKey",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:32Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "c2627a32-53d4-4de7-8b11-f3e757fe72e3",
+      "requestParameters": {
+        "keyId": "d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b",
+          "accountId": "123456789012",
+          "type": "AWS::KMS::Key"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "f9e03c7c-5306-4470-9240-f3cae23c0c59",
+      "eventName": "ListAliases",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:32Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "9c0cd93e-ae14-4468-95da-07741fb2a357",
+      "requestParameters": {
+        "limit": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "497f0af0-2e97-47b9-a272-42926da11c85",
+      "eventName": "GetRole",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:34Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "ad63bbf0-c20c-4c8d-81ca-0f2de05fa6ff",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 611,
+        "endTime": 1788401134448,
+        "httpStatusCode": 200,
+        "startTime": 1788401134425,
+        "turnAroundTime": 21,
+        "x-amz-id-2": "RiBGFS4tng4SOKXIjG6GuidJDr4k3fzDTw64ETjsxbCD4DiJEG9mMOqXpDvnsoQDh8BsUDbDl0a7e1Eo4/ddUX9CE+9yKBOs"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "967715df-4d6c-4f37-aae5-b1711b375684",
+      "eventName": "ListBuckets",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:34Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "M85KMXWT8XVD3V35",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 162,
+        "endTime": 1788401134732,
+        "httpStatusCode": 200,
+        "startTime": 1788401134727,
+        "x-amz-id-2": "WoOXtCjGM7OEZCWUZoTHySHde0wosrEpWuEZfgWJXJ81/piD3Mp8ytwRkdJ6fpNjvZmlHn8kB28="
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "a9f0c17b-2642-481d-80ac-eb7515ea640e",
+      "eventName": "GetBucketVersioning",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:34Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "M85WA9GTZEBZ9W2V",
+      "requestParameters": {
+        "Host": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "versioning": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam-replay-fixture-data-4351a7f9.s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "AuthenticationMethod": "AuthHeader",
+        "CipherSuite": "TLS_AES_128_GCM_SHA256",
+        "SignatureVersion": "SigV4",
+        "bytesTransferredIn": 0,
+        "bytesTransferredOut": 108,
+        "endTime": 1788401134696,
+        "httpStatusCode": 200,
+        "startTime": 1788401134691,
+        "x-amz-id-2": "GQYc8UqSBGsSFA867UOEx9d2sWblxrR0ZNMaW65BUlRdigcvtMnRt0ufS3OhghoMmoERcjnTjEauozFERS44o39V+YptDHHp"
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "f8449827-db94-4858-87cf-e5fdc650bd3d",
+      "eventName": "GetBucketLocation",
+      "eventSource": "s3.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:34Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "M85GX82ZXXSZMHTD",
+      "requestParameters": {
+        "Host": "s3.amazonaws.com",
+        "bucketName": "iam-replay-fixture-data-4351a7f9",
+        "location": ""
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
+          "accountId": "123456789012",
+          "type": "AWS::S3::Bucket"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "s3.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "[Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97]",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "17466865-ae65-4af3-aab2-840c6c84d310",
+      "eventName": "ListFunctions20150331",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "996ed669-2176-4368-980b-dc226523aaa9",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "20058744-0a5f-4762-b88c-90dc21186e9c",
+      "eventName": "GetFunction20150331v2",
+      "eventSource": "lambda.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "af16f0cc-0f43-4378-85bb-6e36a4e0d4c1",
+      "requestParameters": {
+        "functionName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "lambda.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "additionalEventData": {
+        "ExtendedRequestId": "MTp1cy1lYXN0LTE6UzoxNzg4NDAxMTM1MjQ1OlI6bVh4WDBDdU0=",
+        "RequestDetails": {
+          "awsServingRegion": "us-east-1",
+          "endpointType": "regional"
+        }
+      },
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "3b4216eb-542b-403c-a447-5bca84de422b",
+      "eventName": "GetCallerIdentity",
+      "eventSource": "sts.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "9f886941-120e-44e0-8562-4dd4829b8eb8",
+      "requestParameters": null,
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "sts.us-east-1.amazonaws.com",
+        "keyExchange": "secp256r1",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "750a563f-d45b-488f-ba7a-5d67553c7824",
+      "eventName": "ListAttachedRolePolicies",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "19f2caea-c201-4522-af7a-49bdca6fa169",
+      "requestParameters": {
+        "roleName": "iam-replay-fixture-workload"
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "925a658a-adac-44ea-98f0-5b1f3404b783",
+      "eventName": "DescribeVpcs",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "f8bd37e3-711e-4cd2-9cce-d20cd5cd1a56",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "vpcSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "c001380f-fb1f-4959-9b1a-587a38e461f4",
+      "eventName": "DescribeSecurityGroups",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "6e91b003-536c-4905-aa49-ba0ddc28e1bd",
+      "requestParameters": {
+        "filterSet": {},
+        "maxResults": 5,
+        "securityGroupIdSet": {},
+        "securityGroupSet": {}
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "fa93490c-24ac-467b-b1eb-e74aa93184ec",
+      "eventName": "DescribeInstances",
+      "eventSource": "ec2.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "3bf5738e-81da-44ae-947a-fd7560108d3d",
+      "requestParameters": {
+        "filterSet": {},
+        "instancesSet": {},
+        "maxResults": 5
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "ec2.us-east-1.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "fad42378-c2a3-44cf-8ae0-907c452af424",
+      "eventName": "ListRoles",
+      "eventSource": "iam.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:35Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "aa2e0170-a890-4f86-b85d-06644da77800",
+      "requestParameters": {
+        "maxItems": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_128_GCM_SHA256",
+        "clientProvidedHostHeader": "iam.amazonaws.com",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "1866622b-6e28-4ec0-8b86-cd1a76c89cc6",
+      "eventName": "DescribeKey",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:36Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "dd2d2970-77b2-412f-813d-9755ef688974",
+      "requestParameters": {
+        "keyId": "d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
+      },
+      "resources": [
+        {
+          "ARN": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b",
+          "accountId": "123456789012",
+          "type": "AWS::KMS::Key"
+        }
+      ],
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    },
+    {
+      "awsRegion": "us-east-1",
+      "eventCategory": "Management",
+      "eventID": "9ecb4883-579d-442b-9a9f-f350dbbb193a",
+      "eventName": "ListAliases",
+      "eventSource": "kms.amazonaws.com",
+      "eventTime": "2026-09-03T02:05:36Z",
+      "eventType": "AwsApiCall",
+      "eventVersion": "1.11",
+      "managementEvent": true,
+      "readOnly": true,
+      "recipientAccountId": "123456789012",
+      "requestID": "33525b13-d3c8-4fff-8923-d49e43074fb4",
+      "requestParameters": {
+        "limit": 1
+      },
+      "responseElements": null,
+      "sourceIPAddress": "98.82.12.236",
+      "tlsDetails": {
+        "cipherSuite": "TLS_AES_256_GCM_SHA384",
+        "clientProvidedHostHeader": "kms.us-east-1.amazonaws.com",
+        "keyExchange": "x25519",
+        "tlsVersion": "TLSv1.3"
+      },
+      "userAgent": "Boto3/1.42.97 md/Botocore#1.42.97 ua/2.1 os/linux#5.10.255-262-303.1063.amzn2.x86_64 md/arch#x86_64 lang/python#3.12.13 md/pyimpl#CPython exec-env/AWS_Lambda_python3.12 m/D,b,Z cfg/retry-mode#legacy Botocore/1.42.97",
+      "userIdentity": {
+        "accessKeyId": "ASIATNH7X5GJEXJ6NEHW",
+        "accountId": "123456789012",
+        "arn": "arn:aws:sts::123456789012:assumed-role/iam-replay-fixture-workload/iam-replay-fixture-workload",
+        "inScopeOf": {
+          "credentialsIssuedTo": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload",
+          "credentialsIssuedToVersion": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload:$LATEST",
+          "issuerType": "AWS::Lambda::Function"
+        },
+        "principalId": "AROATNH7X5GJLXAQCS6YN:iam-replay-fixture-workload",
+        "sessionContext": {
+          "attributes": {
+            "creationDate": "2026-09-03T02:05:16Z",
+            "mfaAuthenticated": "false"
+          },
+          "sessionIssuer": {
+            "accountId": "123456789012",
+            "arn": "arn:aws:iam::123456789012:role/iam-replay-fixture-workload",
+            "principalId": "AROATNH7X5GJLXAQCS6YN",
+            "type": "Role",
+            "userName": "iam-replay-fixture-workload"
+          }
+        },
+        "type": "AssumedRole"
+      }
+    }
+  ]
+}

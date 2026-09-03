@@ -1,0 +1,164 @@
+# kms event -> IAM action mappings.
+#
+# keyId may arrive as a key ID, a key ARN, or an alias, so key-scoped entries
+# prefer CloudTrail's resources[] annotation (which is always the resolved key
+# ARN) and set resource_may_be_arn for the fallback.
+#
+# A caveat that belongs in the report rather than in this file: KMS access is
+# frequently granted by the *key policy* -- a resource-based policy -- rather
+# than by the caller's identity policy. This tool evaluates identity policies
+# only (spec §2), so a kms call authorized purely by a key policy will be
+# reported as a deny that would not actually occur. The fixture hit exactly
+# this with Lambda's environment-variable decryption.
+service: kms
+
+events:
+  # --- key reads ---
+  DescribeKey:
+    action: kms:DescribeKey
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  GetKeyPolicy:
+    action: kms:GetKeyPolicy
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  GetKeyRotationStatus:
+    action: kms:GetKeyRotationStatus
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  GetPublicKey:
+    action: kms:GetPublicKey
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  ListResourceTags:
+    action: kms:ListResourceTags
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  ListGrants:
+    action: kms:ListGrants
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  # --- account-wide listings ---
+  ListKeys:
+    action: kms:ListKeys
+    resource: "*"
+
+  ListAliases:
+    action: kms:ListAliases
+    resource: "*"
+
+  # --- cryptographic operations ---
+  #
+  # Frequently authorized by the key policy rather than the identity policy;
+  # see the note at the top of this file.
+  Decrypt:
+    action: kms:Decrypt
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  Encrypt:
+    action: kms:Encrypt
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  GenerateDataKey:
+    action: kms:GenerateDataKey
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  GenerateDataKeyWithoutPlaintext:
+    action: kms:GenerateDataKeyWithoutPlaintext
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  ReEncrypt:
+    action: kms:ReEncryptFrom
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  Sign:
+    action: kms:Sign
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  Verify:
+    action: kms:Verify
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  # --- key lifecycle ---
+  CreateKey:
+    action: kms:CreateKey
+    resource: "*"
+
+  ScheduleKeyDeletion:
+    action: kms:ScheduleKeyDeletion
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  EnableKeyRotation:
+    action: kms:EnableKeyRotation
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  PutKeyPolicy:
+    action: kms:PutKeyPolicy
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  CreateGrant:
+    action: kms:CreateGrant
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  RetireGrant:
+    action: kms:RetireGrant
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
+
+  # CreateAlias authorizes against both the alias and the target key, so it
+  # expands; every entry is marked INFERRED.
+  CreateAlias:
+    expands_to:
+      - action: kms:CreateAlias
+        resource: "arn:{partition}:kms:{region}:{account}:alias/{requestParameters.aliasName}"
+      - action: kms:CreateAlias
+        resource_may_be_arn: true
+        resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.targetKeyId}"
+        note: >-
+          CreateAlias is authorized against both the alias and the target key;
+          this entry is the key half.
+
+  DeleteAlias:
+    action: kms:DeleteAlias
+    resource: "arn:{partition}:kms:{region}:{account}:alias/{requestParameters.aliasName}"
+
+  TagResource:
+    action: kms:TagResource
+    resource_type: AWS::KMS::Key
+    resource_may_be_arn: true
+    resource: "arn:{partition}:kms:{region}:{account}:key/{requestParameters.keyId}"
