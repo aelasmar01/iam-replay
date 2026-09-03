@@ -43,10 +43,28 @@ class Window:
     def covers(self, moment: datetime) -> bool:
         return self.analyzed_start <= moment <= self.analyzed_end
 
+    @property
+    def analyzed_seconds(self) -> float:
+        return max(0.0, (self.analyzed_end - self.analyzed_start).total_seconds())
+
     def describe(self) -> str:
+        """Human-readable analyzed window.
+
+        Sub-day windows are reported in hours rather than as "0 days", which
+        reads as though nothing was analyzed at all -- the opposite of what this
+        field exists to communicate.
+        """
         start = self.analyzed_start.date().isoformat()
         end = self.analyzed_end.date().isoformat()
-        return f"{self.analyzed_days} days ({start} → {end})"
+
+        if self.analyzed_days >= 1:
+            unit = f"{self.analyzed_days} days"
+        elif self.analyzed_seconds >= 3600:
+            unit = f"{self.analyzed_seconds / 3600:.1f} hours"
+        else:
+            unit = f"{self.analyzed_seconds / 60:.0f} minutes"
+
+        return f"{unit} ({start} → {end})"
 
 
 def resolve_requested_days(

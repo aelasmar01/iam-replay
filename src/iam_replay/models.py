@@ -146,6 +146,12 @@ class MappedEvent:
     requests: tuple[AuthorizationRequest, ...] = field(default_factory=tuple)
     reason: Reason | None = None
 
+    #: The principal the event is attributed to, resolved whether or not the
+    #: event produced any request. Filtering by --principal depends on this:
+    #: an unmapped or unsupported-service event still belongs to someone, and
+    #: without this field every such event in the account looks like a match.
+    principal_arn: str | None = None
+
 
 def freeze_context(context: dict[str, ContextValue | str]) -> tuple[tuple[str, ContextValue], ...]:
     """Normalize a context dict into the hashable, sorted form requests carry.

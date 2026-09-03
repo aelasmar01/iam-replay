@@ -195,3 +195,102 @@ def test_requests_are_hashable_for_deduplication(mapper):
     """Dedupe (§8) keys on the whole request, so every field must be hashable."""
     result = map_one(mapper, "s3_events.json", "s3-0001-listobjectsv2-success")
     assert len(set(result.requests)) == 1
+
+
+# --- fields that carry either a name or an ARN -------------------------------
+
+
+def test_a_field_holding_a_full_arn_is_used_verbatim(mapper):
+    """lambda functionName and kms keyId accept either form. Substituting an ARN
+    into an ARN template builds 'arn:...:function:arn:...', which matches
+    nothing and would report a false DENY."""
+    record = {
+        "eventID": "lambda-arn-form",
+        "eventTime": "2026-09-01T00:00:00Z",
+        "eventSource": "lambda.amazonaws.com",
+        "eventName": "GetFunction20150331v2",
+        "awsRegion": "us-east-1",
+        "recipientAccountId": "123456789012",
+        "userIdentity": {
+            "type": "AssumedRole",
+            "accountId": "123456789012",
+            "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/R"}},
+        },
+        "requestParameters": {
+            "functionName": "arn:aws:lambda:us-east-1:123456789012:function:my-func"
+        },
+    }
+    request = mapper.map_event(record).requests[0]
+
+    assert request.action == "lambda:GetFunction"
+    assert request.resource_arn == "arn:aws:lambda:us-east-1:123456789012:function:my-func"
+    assert request.confidence is Confidence.EXACT
+
+
+def test_a_field_holding_a_bare_name_still_goes_through_the_template(mapper):
+    record = {
+        "eventID": "lambda-name-form",
+        "eventTime": "2026-09-01T00:00:00Z",
+        "eventSource": "lambda.amazonaws.com",
+        "eventName": "GetFunction20150331v2",
+        "awsRegion": "us-east-1",
+        "recipientAccountId": "123456789012",
+        "userIdentity": {
+            "type": "AssumedRole",
+            "accountId": "123456789012",
+            "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/R"}},
+        },
+        "requestParameters": {"functionName": "my-func"},
+    }
+    request = mapper.map_event(record).requests[0]
+    assert request.resource_arn == "arn:aws:lambda:us-east-1:123456789012:function:my-func"
+
+
+def test_versioned_lambda_event_names_are_mapped(mapper):
+    """CloudTrail records Lambda calls under API-versioned names. An unmapped
+    event is silently skipped rather than denied, so a wrong name here hides."""
+    for event_name in ("GetFunction20150331v2", "ListFunctions20150331",
+                       "CreateFunction20150331", "UpdateFunctionCode20150331v2"):
+        assert event_name in mapper._mappings["lambda"], event_name
+
+
+def test_run_instances_expands_to_every_authorization_it_requires(mapper):
+    """One RunInstances call authorizes against the instance, the AMI, the
+    subnet, the security group, the key pair, the volumes and the network
+    interface -- plus iam:PassRole when an instance profile is attached."""
+    record = {
+        "eventID": "ec2-runinstances",
+        "eventTime": "2026-09-01T00:00:00Z",
+        "eventSource": "ec2.amazonaws.com",
+        "eventName": "RunInstances",
+        "awsRegion": "us-east-1",
+        "recipientAccountId": "123456789012",
+        "userIdentity": {
+            "type": "AssumedRole",
+            "accountId": "123456789012",
+            "sessionContext": {"sessionIssuer": {"arn": "arn:aws:iam::123456789012:role/R"}},
+        },
+        "requestParameters": {
+            "instancesSet": {"items": [{"imageId": "ami-0abc", "keyName": "deploy-key"}]},
+            "subnetId": "subnet-123",
+        },
+    }
+    requests = mapper.map_event(record).requests
+
+    actions = [r.action for r in requests]
+    assert actions.count("ec2:RunInstances") == 7
+    assert "iam:PassRole" in actions
+
+    # Every entry is INFERRED or UNKNOWN_RESOURCE: the event says RunInstances
+    # happened, not that these eight authorizations occurred.
+    assert all(r.confidence is not Confidence.EXACT for r in requests)
+
+    by_resource = {r.resource_arn for r in requests}
+    assert "arn:aws:ec2:us-east-1::image/ami-0abc" in by_resource
+    assert "arn:aws:ec2:us-east-1:123456789012:subnet/subnet-123" in by_resource
+
+    # No instance profile was passed, so PassRole has no resource -- reported as
+    # unknown rather than dropped.
+    pass_role = next(r for r in requests if r.action == "iam:PassRole")
+    assert pass_role.resource_arn is None
+    assert pass_role.confidence is Confidence.UNKNOWN_RESOURCE

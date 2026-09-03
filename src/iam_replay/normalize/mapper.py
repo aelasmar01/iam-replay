@@ -246,20 +246,27 @@ class Mapper:
     def map_event(self, event: dict[str, Any]) -> MappedEvent:
         meta = self._build_meta(event)
 
+        # Resolved before any early return: --principal filtering needs to know
+        # who an unmapped or unsupported event belongs to, or every such event
+        # in the account matches every principal.
+        principal = resolve(event.get("userIdentity"))
+        owner = principal.arn
+
         service = service_from_event_source(event.get("eventSource") or "")
         if service is None or service not in SERVICE_ALLOWLIST:
-            return MappedEvent(meta, reason=Reason.UNSUPPORTED_SERVICE)
+            return MappedEvent(meta, reason=Reason.UNSUPPORTED_SERVICE, principal_arn=owner)
 
         event_mapping = self._mappings.get(service, {}).get(meta.event_name)
         if event_mapping is None:
-            return MappedEvent(meta, reason=Reason.UNMAPPED_EVENT)
+            return MappedEvent(meta, reason=Reason.UNMAPPED_EVENT, principal_arn=owner)
 
         if event_mapping.requires_no_authorization:
-            return MappedEvent(meta, reason=Reason.NO_AUTHORIZATION_REQUIRED)
+            return MappedEvent(
+                meta, reason=Reason.NO_AUTHORIZATION_REQUIRED, principal_arn=owner
+            )
 
-        principal = resolve(event.get("userIdentity"))
         if principal.arn is None:
-            return MappedEvent(meta, reason=Reason.UNKNOWN_PRINCIPAL)
+            return MappedEvent(meta, reason=Reason.UNKNOWN_PRINCIPAL, principal_arn=None)
 
         frozen_context = freeze_context(context_module.extract(event, principal))
 
@@ -267,7 +274,7 @@ class Mapper:
             self._build_request(permission, event, principal, frozen_context, event_mapping)
             for permission in event_mapping.permissions
         )
-        return MappedEvent(meta, requests=requests)
+        return MappedEvent(meta, requests=requests, principal_arn=owner)
 
     def _build_request(
         self,
@@ -290,6 +297,7 @@ class Mapper:
             notes.append(permission.note)
 
         resource_arn = _resource_from_event_array(event, permission.resource_type)
+        missing: list[str] = []
         if resource_arn is None and permission.resource is not None:
             if permission.resource_may_be_arn:
                 resource_arn = _verbatim_arn(permission.resource, event)
