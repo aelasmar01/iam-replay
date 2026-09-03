@@ -34,9 +34,16 @@ exactly three places, chosen so the demo exercises all three output states:
 
 | # | Change | Expected result |
 |---|---|---|
-| 1 | `s3:GetBucketVersioning` dropped from `ReadTheFixtureBucket` | **WOULD DENY** — implicit deny; the workload calls it every run |
-| 2 | `ReadOwnRole` scoped to `role/some-other-role` | **WOULD DENY** — `iam:GetRole` and `iam:ListAttachedRolePolicies` no longer match |
-| 3 | `aws:ResourceTag/Project` condition added to `ReadTheFixtureBucket` | **INDETERMINATE** — CloudTrail never carries resource tags, so `s3:ListBucket` and `s3:GetBucketLocation` cannot be resolved either way |
+| 1 | `s3:GetBucketVersioning` dropped from `ReadTheFixtureBucket` | **INDETERMINATE** (`resource_policy_unevaluable`) — no `Allow` matches, but an S3 bucket policy could grant it independently of the identity policy, so the tool will not call it a deny |
+| 2 | `ReadOwnRole` scoped to `role/some-other-role` | **WOULD DENY** — `iam:GetRole` and `iam:ListAttachedRolePolicies` no longer match, and `iam` resources carry no resource-based policy, so the deny is confident |
+| 3 | `aws:ResourceTag/Project` condition added to `ReadTheFixtureBucket` | **INDETERMINATE** (`never_available_condition_key`) — CloudTrail never carries resource tags, so `s3:GetBucketLocation` cannot be resolved either way |
+
+Change 1 used to produce a `WOULD DENY`. It became indeterminate when `s3` was recognised as
+resource-policy-capable, and the shift is the point rather than a regression: the tool stopped
+claiming certainty it did not have.
+
+The candidate is generated from the baseline with exactly these three edits applied, so the two
+cannot drift apart as the workload grows. Everything else in the two files is identical.
 
 Change 3 is the one worth dwelling on. The condition is almost certainly
 satisfied in reality. A tool willing to assume that would report a clean result;

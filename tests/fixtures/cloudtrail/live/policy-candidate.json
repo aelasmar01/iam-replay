@@ -14,7 +14,7 @@
         "s3:ListBucket",
         "s3:GetBucketLocation"
       ],
-      "Resource": "arn:${partition}:s3:::${data_bucket}",
+      "Resource": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9",
       "Condition": {
         "StringEquals": {
           "aws:ResourceTag/Project": "iam-replay"
@@ -28,7 +28,7 @@
         "iam:GetRole",
         "iam:ListAttachedRolePolicies"
       ],
-      "Resource": "arn:${partition}:iam::${account_id}:role/some-other-role"
+      "Resource": "arn:aws:iam::123456789012:role/some-other-role"
     },
     {
       "Sid": "ListRoles",
@@ -50,7 +50,7 @@
       "Sid": "ReadOwnFunction",
       "Effect": "Allow",
       "Action": "lambda:GetFunction",
-      "Resource": "${function_arn}"
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload"
     },
     {
       "Sid": "ListFunctions",
@@ -62,7 +62,7 @@
       "Sid": "DescribeFixtureKey",
       "Effect": "Allow",
       "Action": "kms:DescribeKey",
-      "Resource": "${key_arn}"
+      "Resource": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
     },
     {
       "Sid": "ListAliases",
@@ -75,15 +75,15 @@
       "Effect": "Allow",
       "Action": "ec2:CreateSecurityGroup",
       "Resource": [
-        "arn:${partition}:ec2:${region}:${account_id}:security-group/*",
-        "arn:${partition}:ec2:${region}:${account_id}:vpc/*"
+        "arn:aws:ec2:us-east-1:123456789012:security-group/*",
+        "arn:aws:ec2:us-east-1:123456789012:vpc/*"
       ]
     },
     {
       "Sid": "DeleteScratchSecurityGroup",
       "Effect": "Allow",
       "Action": "ec2:DeleteSecurityGroup",
-      "Resource": "arn:${partition}:ec2:${region}:${account_id}:security-group/*"
+      "Resource": "arn:aws:ec2:us-east-1:123456789012:security-group/*"
     },
     {
       "Sid": "WriteScratchRolePolicy",
@@ -92,7 +92,7 @@
         "iam:PutRolePolicy",
         "iam:DeleteRolePolicy"
       ],
-      "Resource": "${scratch_role_arn}"
+      "Resource": "arn:aws:iam::123456789012:role/iam-replay-fixture-scratch"
     },
     {
       "Sid": "ManageScratchAlias",
@@ -101,7 +101,7 @@
         "kms:CreateAlias",
         "kms:DeleteAlias"
       ],
-      "Resource": "arn:${partition}:kms:${region}:${account_id}:${scratch_alias}"
+      "Resource": "arn:aws:kms:us-east-1:123456789012:alias/iam-replay-fixture-scratch"
     },
     {
       "Sid": "AliasTargetKey",
@@ -110,13 +110,13 @@
         "kms:CreateAlias",
         "kms:DeleteAlias"
       ],
-      "Resource": "${key_arn}"
+      "Resource": "arn:aws:kms:us-east-1:123456789012:key/d2024cc9-11fc-4b8c-b3fc-1e29e728399b"
     },
     {
       "Sid": "TagTheFixtureBucket",
       "Effect": "Allow",
       "Action": "s3:PutBucketTagging",
-      "Resource": "arn:${partition}:s3:::${data_bucket}"
+      "Resource": "arn:aws:s3:::iam-replay-fixture-data-4351a7f9"
     },
     {
       "Sid": "TagOwnFunction",
@@ -125,13 +125,13 @@
         "lambda:TagResource",
         "lambda:UntagResource"
       ],
-      "Resource": "${function_arn}"
+      "Resource": "arn:aws:lambda:us-east-1:123456789012:function:iam-replay-fixture-workload"
     },
     {
       "Sid": "AssumeTargetRole",
       "Effect": "Allow",
       "Action": "sts:AssumeRole",
-      "Resource": "${target_role_arn}"
+      "Resource": "arn:aws:iam::123456789012:role/iam-replay-fixture-roles/iam-replay-fixture-target"
     },
     {
       "Sid": "WriteOwnLogs",
@@ -140,7 +140,7 @@
         "logs:CreateLogStream",
         "logs:PutLogEvents"
       ],
-      "Resource": "${log_group_arn}"
+      "Resource": "arn:aws:logs:us-east-1:123456789012:log-group:/aws/lambda/iam-replay-fixture-workload:*"
     }
   ]
 }

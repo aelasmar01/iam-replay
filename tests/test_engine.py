@@ -661,3 +661,25 @@ def test_boundary_exclusion_of_assume_role_still_denies():
     )
 
     assert decision.verdict is Verdict.DENY
+
+
+def test_iam_actions_are_not_resource_policy_capable():
+    """Settled, and pinned so it is not revisited.
+
+    IAM's only resource-based policy is the role trust policy, which governs
+    sts:AssumeRole -- covered by the sts entry -- not iam:* actions. Those are
+    authorized by identity policies alone, so an implicit deny on them stays a
+    confident DENY, and adding iam to the set would soften correct denies into
+    unknowns for no reason.
+    """
+    from iam_replay.evaluate.engine import RESOURCE_POLICY_CAPABLE_SERVICES
+
+    assert "iam" not in RESOURCE_POLICY_CAPABLE_SERVICES
+    assert "sts" in RESOURCE_POLICY_CAPABLE_SERVICES
+
+    decision = evaluate_request(
+        confident_request(action="iam:GetRole"),
+        policy(allow(Action="s3:ListBucket", Resource="*")),
+    )
+    assert decision.verdict is Verdict.DENY
+    assert decision.reason is not Reason.RESOURCE_POLICY_UNEVALUABLE

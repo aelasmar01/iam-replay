@@ -1,0 +1,79 @@
+name: release
+
+# Publishes to PyPI via Trusted Publishing (OIDC). No API token exists or is
+# needed: the pending publisher registered on PyPI is
+#
+#     repository  aelasmar01/iam-replay
+#     workflow    release.yml          <- this file's name; PyPI matches on it
+#     environment (Any)                <- so no `environment:` key below
+#
+# The filename is load-bearing. Renaming this file to release.yaml, or moving
+# it, breaks the match and PyPI rejects the upload with invalid-publisher.
+#
+# A pending publisher converts to a normal one only when the first release
+# arrives *through this workflow*. `twine upload` will not satisfy it.
+
+on:
+  push:
+    tags:
+      - "v*"
+  release:
+    types: [published]
+
+jobs:
+  build:
+    name: Build distributions
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Build sdist and wheel
+        run: pipx run build
+
+      # A mistyped tag must not publish a version nobody asked for. PyPI
+      # releases are immutable, so this check is cheaper than the alternative.
+      - name: Check the tag matches the packaged version
+        if: startsWith(github.ref, 'refs/tags/v')
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          built=$(ls dist/*.tar.gz | sed -E 's/.*iam_replay-(.+)\.tar\.gz/\1/')
+          echo "tag=$tag packaged=$built"
+          if [ "$tag" != "$built" ]; then
+            echo "::error::tag v$tag does not match packaged version $built"
+            exit 1
+          fi
+
+      - name: Check the metadata
+        run: pipx run twine check dist/*
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+  publish:
+    name: Publish to PyPI
+    needs: build
+    runs-on: ubuntu-latest
+
+    # The OIDC token this grants IS the credential. Without it there is nothing
+    # for PyPI to verify and auth fails.
+    permissions:
+      id-token: write
+
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      # Deliberately no `user`, `password` or `with: password: ${{ secrets... }}`.
+      # A leftover API token here is the usual reason a correct trusted-publisher
+      # setup still fails: the action prefers the token and never presents the
+      # OIDC identity PyPI is waiting for.
+      - uses: pypa/gh-action-pypi-publish@release/v1

@@ -40,9 +40,13 @@ from .conditions import Tri
 #:
 #: Verified against AWS documentation. Deliberately excluded:
 #:
-#:   iam   -- IAM actions (GetRole, ListRoles) are not governed by any resource
-#:            policy. Trust policies are resource-based, but they govern
-#:            sts:AssumeRole, not iam:*.
+#:   iam   -- Settled, not pending review. IAM's only resource-based policy is
+#:            the role trust policy, and a trust policy governs sts:AssumeRole,
+#:            which is handled by the sts entry above. It does not govern
+#:            iam:GetRole, iam:ListRoles or any other iam:* action -- those are
+#:            authorized by identity policies alone, so an implicit deny on them
+#:            is a confident answer. Adding iam here would soften correct denies
+#:            into unknowns for no reason.
 #:   ec2   -- no resource-based policy mechanism.
 #:
 #: secretsmanager, sqs and sns are named here for correctness but sit outside

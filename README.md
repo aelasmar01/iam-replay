@@ -6,17 +6,15 @@ reports exactly which historical calls would now be denied.
 
 The output is a reviewable list, not a recommendation. **The tool never applies a policy.**
 
-```
-WOULD DENY  (3)
-Action                        Resource                                    Calls  Seen        Why
-iam:GetRole                   arn:aws:iam::…:role/deploy-role                 9  2026-09-03  implicit deny
-iam:ListAttachedRolePolicies  arn:aws:iam::…:role/deploy-role                 9  2026-09-03  implicit deny
-s3:GetBucketVersioning        arn:aws:s3:::acme-artifacts-prod                9  2026-09-03  implicit deny
+![iam-replay replaying a role's CloudTrail history against a candidate policy: the policy in force produces no denies, the tightened candidate breaks two calls outright and leaves three it refuses to guess at](docs/media/demo.gif)
 
-INDETERMINATE  (1)
-  never_available_condition_key
-    s3:GetBucketLocation on arn:aws:s3:::acme-artifacts-prod ×9
-      — unevaluable: aws:ResourceTag/Project
+Recorded against the committed test fixture, so the run above reproduces from a clean clone:
+
+```bash
+iam-replay --principal arn:aws:iam::123456789012:role/iam-replay-fixture-workload \
+           --policy tests/fixtures/cloudtrail/live/policy-candidate.json \
+           --source files --path tests/fixtures/cloudtrail/live/workload_events.json \
+           --days 3650
 ```
 
 ---
