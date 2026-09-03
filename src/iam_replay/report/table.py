@@ -40,6 +40,7 @@ def render(report: ReplayReport, console: Console, verbose: bool = False) -> Non
     _render_denies(report, console)
     _render_indeterminate(report, console)
     _render_new_access(report, console)
+    _render_unmapped(report, console, verbose)
     _render_allows(report, console, verbose)
 
 
@@ -80,9 +81,22 @@ def _render_header(report: ReplayReport, console: Console) -> None:
     )
     console.print(f"    failed post-authz:{_fmt(counts.failed_post_authz)}")
 
+    # Printed unconditionally, zero included. A number that only appears when
+    # it is bad is a number nobody learns to look for -- the same reasoning as
+    # the analyzed window line above.
+    distinct = counts.distinct_unmapped_events
+    unmapped_line = f"  unmapped events:  {_fmt(counts.unmapped_event)}"
+    if counts.unmapped_event:
+        noun = "name" if distinct == 1 else "names"
+        unmapped_line += (
+            f"  [yellow]({distinct} distinct event {noun} from supported services)[/yellow]"
+        )
+    console.print(unmapped_line)
+
+    # Unmapped events are excluded here: they have their own line above, and
+    # printing the same number twice invites the reader to add them together.
     skipped = (
         counts.unsupported_service
-        + counts.unmapped_event
         + counts.no_authorization_required
         + counts.unknown_principal
     )
@@ -90,7 +104,6 @@ def _render_header(report: ReplayReport, console: Console) -> None:
         console.print(
             f"  not evaluated:      {_fmt(skipped)}"
             f"  [dim](unsupported service {counts.unsupported_service}, "
-            f"unmapped {counts.unmapped_event}, "
             f"no authorization required {counts.no_authorization_required}, "
             f"no principal {counts.unknown_principal})[/dim]"
         )
@@ -189,6 +202,23 @@ def _render_new_access(report: ReplayReport, console: Console) -> None:
             f"    {entry.group.request.action} on {_resource(entry)} "
             f"[dim]×{_fmt(entry.group.count)}[/dim]"
         )
+
+
+def _render_unmapped(report: ReplayReport, console: Console, verbose: bool) -> None:
+    """Under --verbose, name the events that never reached the evaluator."""
+    counts = report.counts
+    if not verbose or not counts.unmapped_events:
+        return
+
+    _section(console, "UNMAPPED EVENTS", "yellow", counts.distinct_unmapped_events)
+    console.print(
+        "  [dim]From supported services, but with no mapping entry. Not "
+        "evaluated in either direction.[/dim]"
+    )
+    for (service, event_name), count in sorted(
+        counts.unmapped_events.items(), key=lambda kv: (-kv[1], kv[0])
+    ):
+        console.print(f"    {service}:{event_name} [dim]×{_fmt(count)}[/dim]")
 
 
 def _render_allows(report: ReplayReport, console: Console, verbose: bool) -> None:

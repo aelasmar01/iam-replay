@@ -111,6 +111,16 @@ def to_dict(report: ReplayReport) -> dict[str, Any]:
         "indeterminate": [_group_to_dict(e) for e in report.indeterminate],
         "new_access": [_group_to_dict(e) for e in report.new_access],
         "would_allow": [_group_to_dict(e) for e in report.would_allow],
+        "unmapped": {
+            "total_events": counts.unmapped_event,
+            "distinct_events": counts.distinct_unmapped_events,
+            "events": [
+                {"service": service, "event": event_name, "count": count}
+                for (service, event_name), count in sorted(
+                    counts.unmapped_events.items(), key=lambda kv: (-kv[1], kv[0])
+                )
+            ],
+        },
         "caveats": list(report.caveats),
     }
 

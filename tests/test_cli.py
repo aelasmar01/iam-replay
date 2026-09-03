@@ -274,3 +274,87 @@ def test_gates_under_the_resource_policy_distribution(runner, tmp_path):
     assert document["summary"]["DENY"] > 0
     assert run(runner, "--fail-on-deny", policy=policy).exit_code == EXIT_GATE_TRIPPED
     assert run(runner, "--fail-on-indeterminate", policy=policy).exit_code == EXIT_GATE_TRIPPED
+
+
+# --- unmapped events (item 2) ------------------------------------------------
+
+EDGE = FIXTURES / "edge_cases.json"
+EDGE_PRINCIPAL = "arn:aws:iam::123456789012:role/service-role/DeployRole"
+
+
+def run_edge(runner, *extra, fmt=None):
+    """The edge-case fixture holds an unmapped event from a supported service
+    (s3 GetBucketInventoryConfiguration) alongside an unsupported-service event
+    (dynamodb), which is exactly the pair that must not be conflated."""
+    args = [
+        "--principal", EDGE_PRINCIPAL,
+        "--policy", str(BASELINE),
+        "--source", "files", "--path", str(EDGE),
+        "--days", "3650",
+        *extra,
+    ]
+    if fmt:
+        args += ["--format", fmt]
+    return runner.invoke(main, args)
+
+
+def test_unmapped_events_are_reported_in_the_header(runner):
+    """A user can otherwise see WOULD DENY (0) on a role whose most interesting
+    calls never reached the evaluator at all."""
+    flat = " ".join(run_edge(runner).output.split())
+    assert "unmapped events:" in flat
+    assert "distinct event name" in flat
+
+
+def test_the_unmapped_line_prints_even_when_zero(runner):
+    """Same reasoning as the analyzed window: a number that only appears when
+    it is bad is a number nobody learns to look for."""
+    flat = " ".join(run(runner).output.split())
+    assert "unmapped events: 0" in flat
+
+
+def test_unmapped_and_unsupported_are_counted_separately(runner):
+    """Two different statements. 'I have no mapping for this call' and 'this
+    service is out of scope' must not be merged into one number."""
+    document = json.loads(run_edge(runner, fmt="json").output)
+
+    unmapped = document["unmapped"]
+    assert unmapped["total_events"] >= 1
+    names = {entry["event"] for entry in unmapped["events"]}
+    assert "GetBucketInventoryConfiguration" in names
+    # dynamodb is out of scope, not unmapped -- it must not appear here.
+    assert not any(entry["service"] == "dynamodb" for entry in unmapped["events"])
+    assert document["counts"]["not_evaluated"]["unsupported_service"] >= 1
+
+
+def test_json_lists_each_unmapped_event_with_its_count(runner):
+    document = json.loads(run_edge(runner, fmt="json").output)
+    entry = next(
+        e for e in document["unmapped"]["events"]
+        if e["event"] == "GetBucketInventoryConfiguration"
+    )
+    assert entry["service"] == "s3"
+    assert entry["count"] >= 1
+
+
+def test_unmapped_events_raise_a_caveat(runner):
+    document = json.loads(run_edge(runner, fmt="json").output)
+    assert any("no mapping" in caveat for caveat in document["caveats"])
+
+
+def test_no_unmapped_caveat_when_there_are_none(runner):
+    document = json.loads(run(runner, "--format", "json").output)
+    assert document["unmapped"]["total_events"] == 0
+    assert not any("no mapping" in caveat for caveat in document["caveats"])
+
+
+def test_verbose_lists_the_distinct_unmapped_event_names(runner):
+    """The caveat names them either way -- that is the point of a caveat. What
+    --verbose adds is the per-event breakdown in its own section."""
+    plain = run_edge(runner).output
+    verbose = run_edge(runner, "--verbose").output
+
+    assert "GetBucketInventoryConfiguration" in plain  # named in the caveat
+    assert "UNMAPPED EVENTS" not in plain
+    assert "UNMAPPED EVENTS" in verbose
+    assert "s3:GetBucketInventoryConfiguration" in verbose

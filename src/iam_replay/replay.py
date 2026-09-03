@@ -54,9 +54,21 @@ class EventCounts:
     #: report so a user can see whether *their* replay touched validated ground.
     mappings_used: set = field(default_factory=set)
     mappings_oracle_backed: set = field(default_factory=set)
-    unmapped_event: int = 0
+    #: Events from an allowlisted service with no mapping entry, keyed by
+    #: (service, eventName). Kept separate from unsupported_service on purpose:
+    #: "this service is out of scope" and "I have no mapping for this call" are
+    #: different statements, and merging them hides the second behind the first.
+    unmapped_events: Counter = field(default_factory=Counter)
     no_authorization_required: int = 0
     unknown_principal: int = 0
+
+    @property
+    def unmapped_event(self) -> int:
+        return sum(self.unmapped_events.values())
+
+    @property
+    def distinct_unmapped_events(self) -> int:
+        return len(self.unmapped_events)
 
 
 @dataclass
@@ -85,11 +97,13 @@ class ReplayReport:
         return len(self.would_deny) + len(self.indeterminate) + len(self.would_allow)
 
 
-def _tally_reason(counts: EventCounts, reason: Reason | None) -> None:
+def _tally_reason(counts: EventCounts, mapped: MappedEvent) -> None:
+    reason = mapped.reason
     if reason is Reason.UNSUPPORTED_SERVICE:
         counts.unsupported_service += 1
     elif reason is Reason.UNMAPPED_EVENT:
-        counts.unmapped_event += 1
+        service = service_from_event_source(mapped.meta.event_source) or "?"
+        counts.unmapped_events[(service, mapped.meta.event_name)] += 1
     elif reason is Reason.NO_AUTHORIZATION_REQUIRED:
         counts.no_authorization_required += 1
     elif reason is Reason.UNKNOWN_PRINCIPAL:
@@ -136,7 +150,7 @@ def replay(
         else:
             counts.failed_post_authz += 1
 
-        _tally_reason(counts, mapped.reason)
+        _tally_reason(counts, mapped)
 
         if mapped.requests:
             service = service_from_event_source(mapped.meta.event_source)
@@ -228,11 +242,22 @@ def _caveats(report: ReplayReport, candidate_policy: Mapping[str, Any]) -> list[
             "resource in one of them would produce a wrong verdict here."
         )
 
-    if report.counts.unsupported_service or report.counts.unmapped_event:
+    if report.counts.unmapped_event:
+        names = ", ".join(
+            sorted(f"{service}:{event}" for service, event in report.counts.unmapped_events)
+        )
+        total = report.counts.unmapped_event
         caveats.append(
-            f"{report.counts.unsupported_service} events fell outside the "
-            f"supported services and {report.counts.unmapped_event} had no "
-            "mapping. Neither group was evaluated."
+            f"{total} event{'' if total == 1 else 's'} from supported services had "
+            f"no mapping and {'was' if total == 1 else 'were'} not evaluated: "
+            f"{names}. A clean result says nothing about these calls."
+        )
+
+    if report.counts.unsupported_service:
+        outside = report.counts.unsupported_service
+        caveats.append(
+            f"{outside} event{'' if outside == 1 else 's'} fell outside the six "
+            f"supported services and {'was' if outside == 1 else 'were'} not evaluated."
         )
 
     return caveats
