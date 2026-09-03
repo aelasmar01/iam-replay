@@ -189,6 +189,12 @@ def _render_indeterminate(report: ReplayReport, console: Console) -> None:
 
 def _render_new_access(report: ReplayReport, console: Console) -> None:
     _section(console, "NEW ACCESS", "cyan", len(report.new_access))
+    console.print(
+        "  [dim]Identity-policy-only: a call denied by a resource policy — a KMS key "
+        "policy or a role trust policy, both of which must explicitly allow the "
+        "principal even within one account — may appear grantable here when it is "
+        "not.[/dim]"
+    )
     if not report.new_access:
         console.print("  [dim]none[/dim]")
         return

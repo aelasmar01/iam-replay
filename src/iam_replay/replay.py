@@ -26,6 +26,13 @@ DATA_EVENT_CAVEAT = (
     "evaluated. A clean result is not evidence that nothing would break."
 )
 
+NEW_ACCESS_CAVEAT = (
+    "NEW ACCESS verdicts are identity-policy-only: a call denied by a resource "
+    "policy -- a KMS key policy or a role trust policy, both of which must "
+    "explicitly allow the principal even within one account -- may appear "
+    "grantable when it is not."
+)
+
 IDENTITY_POLICY_ONLY_CAVEAT = (
     "Only identity-based policies are evaluated. Service control policies, "
     "session policies, and resource-based policies (S3 bucket policies, KMS key "
@@ -208,7 +215,12 @@ def _caveats(report: ReplayReport, candidate_policy: Mapping[str, Any]) -> list[
     from .evaluate.conditions import referenced_keys
     from .normalize.context import is_never_available
 
-    caveats = [DATA_EVENT_CAVEAT, IDENTITY_POLICY_ONLY_CAVEAT, INCOMPLETE_DENIAL_LOGGING_CAVEAT]
+    caveats = [
+        DATA_EVENT_CAVEAT,
+        IDENTITY_POLICY_ONLY_CAVEAT,
+        NEW_ACCESS_CAVEAT,
+        INCOMPLETE_DENIAL_LOGGING_CAVEAT,
+    ]
 
     if report.window.truncated:
         caveats.append(

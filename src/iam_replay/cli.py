@@ -117,11 +117,22 @@ def _build_source(source: str, path: Path | None, region: str | None, start, end
     show_default=True,
 )
 @click.option("--verbose", is_flag=True, help="List every WOULD ALLOW rather than counting them.")
-@click.option("--fail-on-deny", is_flag=True, help="Exit 1 if anything would be denied.")
+@click.option(
+    "--fail-on-deny",
+    is_flag=True,
+    help=(
+        "Exit 1 if anything would be denied. Not a sufficient CI gate on its own: "
+        "implicit denies on s3, kms, lambda and sts resolve to INDETERMINATE, so "
+        "pair it with --fail-on-indeterminate."
+    ),
+)
 @click.option(
     "--fail-on-indeterminate",
     is_flag=True,
-    help="Exit 1 if anything could not be determined.",
+    help=(
+        "Exit 1 if anything could not be determined. Use together with "
+        "--fail-on-deny as the safe CI gate."
+    ),
 )
 @click.version_option(__version__, prog_name="iam-replay")
 def main(
@@ -143,6 +154,16 @@ def main(
 
     Reports which historical calls the candidate policy would now deny. It is a
     reviewable list, not a recommendation, and it never applies a policy.
+
+    In CI, gate on both flags together:
+
+        iam-replay --principal ... --policy candidate.json \
+                   --fail-on-deny --fail-on-indeterminate
+
+    --fail-on-deny alone under-reports. Where a resource-based policy could
+    grant a call independently of the identity policy -- s3, kms, lambda and
+    sts -- an unmatched action resolves to INDETERMINATE rather than DENY, and
+    passes the deny gate untouched.
     """
     console = Console(stderr=False)
     error_console = Console(stderr=True)

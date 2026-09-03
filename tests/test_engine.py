@@ -548,13 +548,17 @@ def test_implicit_deny_resource_policy_service_is_indeterminate():
 
 
 def test_implicit_deny_non_resource_policy_service_stays_deny():
-    """Nothing outside that set changes. iam, sts and ec2 resources carry no
+    """Nothing outside that set changes. iam and ec2 resources carry no
     resource-based policy that could grant these calls, so the absence of an
-    Allow remains a confident answer."""
+    Allow remains a confident answer.
+
+    sts used to be in this list. It moved, because a role trust policy *is* a
+    resource-based policy -- see test_implicit_deny_on_assume_role_is_indeterminate.
+    """
     for action, resource in (
         ("iam:GetRole", "arn:aws:iam::123456789012:role/Other"),
+        ("iam:CreateRole", "arn:aws:iam::123456789012:role/New"),
         ("ec2:DescribeInstances", "*"),
-        ("sts:AssumeRole", "arn:aws:iam::123456789012:role/Target"),
     ):
         decision = evaluate_request(
             request(action=action, resource=resource),
@@ -607,3 +611,53 @@ def test_matching_allow_with_a_false_condition_stays_deny_on_s3():
     )
     assert decision.verdict is Verdict.INDETERMINATE
     assert decision.reason is Reason.RESOURCE_POLICY_UNEVALUABLE
+
+
+# --- sts: trust policies are resource-based policies -------------------------
+
+
+def test_implicit_deny_on_assume_role_is_indeterminate():
+    """A role trust policy is a resource-based policy, and AWS documents that
+    for one role to assume another *in the same account* the trust policy's
+    grant is both necessary and sufficient -- the assuming role's identity
+    policy is not sufficient on its own.
+
+    So the absence of an Allow for sts:AssumeRole says nothing about whether the
+    call would succeed, and reporting a confident deny is a confident wrong
+    answer.
+    """
+    decision = evaluate_request(
+        request(action="sts:AssumeRole", resource=TARGET_ROLE),
+        policy(allow(Action="iam:ListRoles", Resource="*")),
+    )
+
+    assert decision.verdict is Verdict.INDETERMINATE
+    assert decision.reason is Reason.RESOURCE_POLICY_UNEVALUABLE
+    assert "sts" in " ".join(decision.notes)
+
+
+def test_explicit_deny_on_assume_role_still_denies():
+    """No resource policy overrides an explicit Deny, trust policies included."""
+    decision = evaluate_request(
+        request(action="sts:AssumeRole", resource=TARGET_ROLE),
+        policy(
+            allow(Action="sts:*", Resource="*"),
+            deny(Sid="NoAssume", Action="sts:AssumeRole", Resource=TARGET_ROLE),
+        ),
+    )
+
+    assert decision.verdict is Verdict.DENY
+    assert decision.matched_sid == "NoAssume"
+    assert decision.reason is not Reason.RESOURCE_POLICY_UNEVALUABLE
+
+
+def test_boundary_exclusion_of_assume_role_still_denies():
+    """A permission boundary that omits sts:AssumeRole denies it. A trust policy
+    grants access; it cannot widen a boundary."""
+    decision = evaluate_request(
+        request(action="sts:AssumeRole", resource=TARGET_ROLE),
+        policy(allow(Action="sts:*", Resource="*")),
+        policy(allow(Action="iam:*", Resource="*")),
+    )
+
+    assert decision.verdict is Verdict.DENY

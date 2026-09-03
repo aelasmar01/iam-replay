@@ -147,16 +147,32 @@ iam-replay --principal arn:aws:iam::123456789012:role/DeployRole \
            --policy candidate.json \
            --source files --path ./trail-data --days 365
 
-# In CI.
-iam-replay --principal ... --policy candidate.json --fail-on-deny
+# In CI. Gate on both: see below for why --fail-on-deny alone is not enough.
+iam-replay --principal ... --policy candidate.json \
+           --fail-on-deny --fail-on-indeterminate
 ```
 
 `--principal` accepts either a role ARN or an assumed-role session ARN and normalizes to
-the role. Add `--boundary` to intersect with a permission boundary, `--format json` for the
-audit artifact, and `--fail-on-indeterminate` to gate on unknowns as well as denials.
+the role. Add `--boundary` to intersect with a permission boundary and `--format json` for
+the audit artifact.
 
 Exit codes: **0** ran cleanly, **1** a gate tripped, **2** the tool failed and nothing it
 printed should be believed.
+
+### The CI gate is both flags, not just `--fail-on-deny`
+
+**`--fail-on-deny` on its own under-reports.** For `s3`, `kms`, `lambda` and `sts` — the
+services whose resources can carry a policy that grants access independently of the identity
+policy — an unmatched action resolves to `INDETERMINATE`, not `DENY`. Those calls sail past
+the deny gate. A tightened policy that breaks an `sts:AssumeRole` or a `kms:Decrypt` can
+therefore produce a green build.
+
+Gate on both, and treat an unknown as a thing to resolve rather than a thing to ignore:
+
+```bash
+iam-replay --principal ... --policy candidate.json \
+           --fail-on-deny --fail-on-indeterminate
+```
 
 ## Limitations
 
@@ -170,7 +186,7 @@ cannot tell them.
    otherwise. Service control policies and session policies are not evaluated at all.
    Resource-based policies are not evaluated either — instead, when no `Allow` matches and
    the target service is one whose resources can carry their own policy (`s3`, `kms`,
-   `lambda`, and `secretsmanager`/`sqs`/`sns` once those are in scope), the result is
+   `lambda`, `sts`, and `secretsmanager`/`sqs`/`sns` once those are in scope), the result is
    `INDETERMINATE` with reason `resource_policy_unevaluable` rather than a confident
    `WOULD DENY`. AWS's own evaluation logic makes this necessary: within one account it does
    not matter whether the `Allow` comes from the identity policy or the resource policy, and
@@ -182,10 +198,13 @@ cannot tell them.
    identity policy wins regardless of service, and a boundary that omits an action denies it,
    because no resource policy overrides either.
 
-   **`sts` is deliberately excluded from that set, and it is the least certain call in the
-   list.** A role trust policy *is* a resource-based policy, and for same-account
-   `sts:AssumeRole` it can grant on its own — so `sts:AssumeRole` implicit denies are still
-   reported confidently and arguably should not be. Raise an issue if you hit this.
+   **`sts` is in that set because a role trust policy is a resource-based policy.** AWS
+   documents that when a resource-based policy grants access to a principal in the same
+   account, no additional identity-based policy is required; for one role to assume another
+   within an account, the trust policy's grant is both necessary and sufficient, and the
+   assuming role's identity policy is *not* sufficient on its own. An implicit deny on
+   `sts:AssumeRole` therefore says nothing about whether the call would succeed, and is
+   reported as `INDETERMINATE`.
 3. **Six services.** `s3`, `iam`, `sts`, `ec2`, `lambda`, `kms`. Anything else resolves to
    `INDETERMINATE` with reason `unsupported_service` — a correct answer, not a failure.
 4. **Tag-based conditions can never be evaluated.** `aws:ResourceTag/*`,

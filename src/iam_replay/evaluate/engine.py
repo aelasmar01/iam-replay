@@ -32,21 +32,23 @@ from .conditions import Tri
 #: and reporting a confident deny would be a confident wrong answer -- the
 #: fixture demonstrated exactly that with kms:Decrypt against the aws/lambda key.
 #:
+#: sts is here because a role *trust* policy is a resource-based policy. AWS
+#: documents that for one role to assume another within the same account, the
+#: trust policy's grant is both necessary and sufficient, and the assuming
+#: role's identity policy is not sufficient on its own. An implicit deny on
+#: sts:AssumeRole therefore says nothing about whether the call would succeed.
+#:
 #: Verified against AWS documentation. Deliberately excluded:
 #:
 #:   iam   -- IAM actions (GetRole, ListRoles) are not governed by any resource
-#:            policy. Role *trust* policies are resource-based, but they govern
+#:            policy. Trust policies are resource-based, but they govern
 #:            sts:AssumeRole, not iam:*.
-#:   sts   -- excluded by instruction. See the note in README limitations: a
-#:            role trust policy is a resource-based policy, and for same-account
-#:            AssumeRole it can grant on its own, so this exclusion is the least
-#:            certain entry in this list.
 #:   ec2   -- no resource-based policy mechanism.
 #:
 #: secretsmanager, sqs and sns are named here for correctness but sit outside
 #: the frozen v1 service allowlist, so no request can currently reach them.
 RESOURCE_POLICY_CAPABLE_SERVICES = frozenset(
-    {"s3", "kms", "lambda", "secretsmanager", "sqs", "sns"}
+    {"s3", "kms", "lambda", "sts", "secretsmanager", "sqs", "sns"}
 )
 
 

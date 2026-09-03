@@ -376,3 +376,30 @@ def test_verbose_lists_the_distinct_unmapped_event_names(runner):
     assert "UNMAPPED EVENTS" not in plain
     assert "UNMAPPED EVENTS" in verbose
     assert "s3:GetBucketInventoryConfiguration" in verbose
+
+
+# --- NEW ACCESS is identity-policy-only (item 2b) ---------------------------
+
+
+def test_new_access_section_states_it_is_identity_policy_only(runner):
+    """A call the candidate policy would grant can still be refused by a
+    resource policy, so the section must not read as a promise of access."""
+    flat = " ".join(run(runner).output.split())
+    assert "NEW ACCESS" in flat
+    assert "resource policy" in flat
+
+
+def test_new_access_caveat_is_present_in_json(runner):
+    document = json.loads(run(runner, "--format", "json").output)
+    assert any(
+        "resource policy" in caveat and "grantable" in caveat
+        for caveat in document["caveats"]
+    )
+
+
+def test_help_documents_both_gates_together(runner):
+    """--fail-on-deny alone under-reports: implicit denies on s3, kms, lambda
+    and sts resolve to INDETERMINATE and do not trip it."""
+    flat = " ".join(runner.invoke(main, ["--help"]).output.split())
+    assert "--fail-on-indeterminate" in flat
+    assert "on its own" in flat or "alone" in flat
