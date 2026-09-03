@@ -158,6 +158,10 @@ cannot tell them.
    report, always, so a 90-day request served by 12 days of data cannot pass unnoticed.
 8. **Unmapped events are skipped, not denied.** An event in a supported service with no
    mapping is reported in the header counts and evaluated no further.
+9. **Most mappings are unvalidated against real traffic.** The ground-truth oracle exercises
+   14 of 158 declared event mappings; the rest rest on hand-written fixtures. No `sts`
+   mapping and no write path has been checked against a real call. See
+   [What that number does not cover](#what-that-number-does-not-cover).
 
 ## How it is validated
 
@@ -175,12 +179,41 @@ policy:
 > **0 false denies across 13 distinct authorization shapes** (52 calls, 5 services)
 > replayed against the live in-force policy.
 
-**What that number does not cover.** The oracle proves the absence of false *denies*, not
-the absence of false *allows*. A mapping that is too broad still resolves to `ALLOW` and
-passes silently, as does a missing context key the in-force policy does not reference. It is
-also only as strong as the baseline is tight — `test_the_baseline_is_tight_enough_to_have_teeth`
-rejects any `service:*` on `*` statement in it, because replayed against `s3:*` on `*`
-everything allows and the test proves nothing.
+### What that number does not cover
+
+Three things, and they matter more than the number does.
+
+**It covers 9% of the mapping surface.** The fixture workload makes 15 calls, so the oracle
+exercises 14 of the 158 event mappings this repo declares. The other 144 are backed only by
+hand-written fixtures — the weaker instrument this section opens by warning about.
+
+| Service | Oracle-validated | Declared |
+|---|---:|---:|
+| `ec2` | 3 | 35 |
+| `iam` | 3 | 30 |
+| `kms` | 2 | 24 |
+| `lambda` | 2 | 27 |
+| `s3` | 3 | 33 |
+| `sts` | 1 | 9 |
+| **Total** | **14** | **158** |
+
+`sts` is worse than that row suggests: its one exercised event is `GetCallerIdentity`, which
+requires no IAM permission and therefore produces no authorization request at all. **No
+`sts` mapping — `sts:AssumeRole` included — is validated by the oracle.** Every validated
+shape is also a read: no write path, and no multi-permission expansion such as
+`ec2:RunInstances`, has ever been checked against real traffic.
+
+`pytest tests/test_ground_truth.py -s` prints this table from the code, so it cannot drift
+from what is actually covered.
+
+**It proves the absence of false denies, not false allows.** A mapping that is too broad
+still resolves to `ALLOW` and passes silently, as does a missing context key the in-force
+policy does not reference.
+
+**It is only as strong as the baseline is tight.**
+`test_the_baseline_is_tight_enough_to_have_teeth` rejects any `service:*` on `*` statement in
+the baseline, because replayed against `s3:*` on `*` everything allows and the test proves
+nothing.
 
 An unmapped event is *skipped*, not denied, so it passes the oracle by not being evaluated.
 `test_no_allowlisted_service_event_is_left_unmapped` closes that hole separately. It is how

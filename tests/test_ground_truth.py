@@ -193,3 +193,34 @@ def test_the_workload_exercises_every_allowlisted_service(mapped_events):
     }
     missing = SERVICE_ALLOWLIST - exercised
     assert not missing, f"workload no longer exercises: {sorted(missing)}"
+
+
+def test_oracle_mapping_coverage_is_reported_not_assumed(mapped_events, capsys):
+    """Prints the share of declared event mappings the oracle actually exercises.
+
+    Not an assertion -- a threshold here would either be trivially met or
+    become something to game. It exists because the headline number ("0 false
+    denies across N shapes") says nothing about *how much of the mapping
+    surface* those N shapes touch, and the README has to state that share
+    honestly. Run with `pytest -s`.
+    """
+    from iam_replay.normalize.mapper import Mapper, service_from_event_source
+
+    declared = {service: set(events) for service, events in Mapper()._mappings.items()}
+    exercised: dict[str, set[str]] = {service: set() for service in declared}
+    for mapped in mapped_events:
+        service = service_from_event_source(mapped.meta.event_source)
+        if service in exercised:
+            exercised[service].add(mapped.meta.event_name)
+
+    total_declared = sum(len(v) for v in declared.values())
+    total_exercised = sum(len(v) for v in exercised.values())
+
+    with capsys.disabled():
+        print("\n  oracle coverage of declared event mappings:")
+        for service in sorted(declared):
+            print(f"    {service:<8} {len(exercised[service]):>3} / {len(declared[service]):<3}")
+        print(
+            f"    {'TOTAL':<8} {total_exercised:>3} / {total_declared:<3}"
+            f"  ({100 * total_exercised / total_declared:.0f}%)"
+        )
